@@ -1,47 +1,34 @@
-# RimGateJaffaKree
-
-![Image](https://i.imgur.com/buuPQel.png)
+# RIMWORLD-STARGATE: Parallel Gates
 
-Update of Helixien - Xens mod
-https://steamcommunity.com/sharedfiles/filedetails/?id=2018387536
+A RimWorld 1.6 Stargate-inspired mod prototype built from the RimGate Jaffa/Kree mod base.
 
-- Fixed raids spawning without weapons
+This first release keeps the Jaffa race, factions, armor, helmets, weapons, sounds, and textures working on RimWorld 1.6, and adds the first playable StarGate MVP.
 
-![Image](https://i.imgur.com/KFjAmff.png)
+## Current Features
 
-	
-![Image](https://i.imgur.com/Z4GOv8H.png)
+- RimWorld 1.6 support.
+- Humanoid Alien Races dependency support.
+- Jaffa race, factions, pawn kinds, apparel, weapons, sounds, and name banks.
+- Czech localization for the custom mod content added/updated so far.
+- Spawnable `StarGate` building through dev mode.
+- StarGate activation flow:
+  - right-click / command interaction to start the gate,
+  - short warmup,
+  - online state with separate online texture,
+  - pawn travel between two spawned gates on loaded maps,
+  - automatic return to offline state.
 
-When I was young, one of my favorite TV Show was Stargate! Now, after so many years I still feel the same nostalgia and I am not the only one. Back in A8, Carnov made a mod which brought the Jaffa with weapons and armor into Rimworld. And now with A16, I once again bring them back! They are not lore friendly and I wont even make an excuss for why they may be. If you are a Stargate fan like myself, you will love the mod! Enjoy! 
+## Requirements
 
-Updated for the Alien Race Framework by Xen!
-	
-Features:
-- Custom head texture! Fully working with all vanilla and modded hairstyles! 
-- Custom Jaffa Amor and helmets! 
-- Three new, hidden Factions! Each with a unique helmet! (Anubis, Ra and Apophis) 
-- Custom names! Each Jaffa has a chance to spawn with a custom name! 
-- New Weapons! The Ma'Tok Staff and the Zat'nik'tel! Each with custom sounds! 
-- Longer Lifespan than normal humans!
+- RimWorld 1.6
+- Humanoid Alien Races
 
-Credits: 
-Carnov (Textures) 
-CPT.OHU (Humanoid Alien Races) 
-Erdelf (Humanoid Alien Races modifications)
+## Development Notes
 
-![Image](https://i.imgur.com/PwoNOj4.png)
+The current StarGate system is an MVP. It supports travel between two gates that already exist on loaded maps. It does not yet generate destination world sites, dialing addresses, power costs, events, hostile arrivals, or custom map generation.
 
+## Credits
 
+This project started from the continued RimGate Jaffa/Kree mod maintained by Mlie, based on work by Helixien, Xen, Carnov, CPT.OHU, and Erdelf/Humanoid Alien Races.
 
--  See if the the error persists if you just have this mod and its requirements active.
--  If not, try adding your other mods until it happens again.
--  Post your error-log using https://steamcommunity.com/workshop/filedetails/?id=818773962]HugsLib or the standalone https://steamcommunity.com/sharedfiles/filedetails/?id=2873415404]Uploader and command Ctrl+F12
--  For best support, please use the Discord-channel for error-reporting.
--  Do not report errors by making a discussion-thread, I get no notification of that.
--  If you have the solution for a problem, please post it to the GitHub repository.
--  Use https://github.com/RimSort/RimSort/releases/latest]RimSort to sort your mods
-
-
-
-https://steamcommunity.com/sharedfiles/filedetails/changelog/2395671127]![Image](https://img.shields.io/github/v/release/emipa606/RimGateJaffaKree?label=latest%20version&style=plastic&color=9f1111&labelColor=black)
-
+Stargate-inspired additions and the current Parallel Gates prototype are maintained by panzmoravylab.

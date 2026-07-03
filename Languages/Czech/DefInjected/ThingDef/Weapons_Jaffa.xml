@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Bullet_JaffaStaff.label>výstřel z tyčové zbraně</Bullet_JaffaStaff.label>
+
+  <Gun_JaffaStaff_blue.label>tyčová zbraň Ma'Tok</Gun_JaffaStaff_blue.label>
+  <Gun_JaffaStaff_blue.description>Tyčová zbraň Ma'Tok je hlavní zbraní jaffských válečníků.</Gun_JaffaStaff_blue.description>
+
+  <Bullet_Zat.label>výstřel ze zat'nik'telu</Bullet_Zat.label>
+
+  <Gun_Zat.label>zat'nik'tel</Gun_Zat.label>
+  <Gun_Zat.description>Goa'uldský zat'nik'tel. Zbraň využívající jiný druh energie, méně silný než tyčová zbraň. Je méně ničivá, ale stále velmi nebezpečná. Jediný zásah může oběť ochromit.</Gun_Zat.description>
+</LanguageData>

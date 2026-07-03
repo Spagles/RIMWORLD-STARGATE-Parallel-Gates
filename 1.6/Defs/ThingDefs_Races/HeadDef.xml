@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Female_Average_Normal</defName>
+    <graphicPath>Jaffa/Head/Female_Average_Normal</graphicPath>
+    <gender>Female</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Female_Average_Pointy</defName>
+    <graphicPath>Jaffa/Head/Female_Average_Pointy</graphicPath>
+    <gender>Female</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Female_Average_Wide</defName>
+    <graphicPath>Jaffa/Head/Female_Average_Wide</graphicPath>
+    <gender>Female</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Female_Narrow_Normal</defName>
+    <graphicPath>Jaffa/Head/Female_Narrow_Normal</graphicPath>
+    <gender>Female</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Female_Narrow_Pointy</defName>
+    <graphicPath>Jaffa/Head/Female_Narrow_Pointy</graphicPath>
+    <gender>Female</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Female_Narrow_Wide</defName>
+    <graphicPath>Jaffa/Head/Female_Narrow_Wide</graphicPath>
+    <gender>Female</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Male_Average_Normal</defName>
+    <graphicPath>Jaffa/Head/Male_Average_Normal</graphicPath>
+    <gender>Male</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Male_Average_Pointy</defName>
+    <graphicPath>Jaffa/Head/Male_Average_Pointy</graphicPath>
+    <gender>Male</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Male_Average_Wide</defName>
+    <graphicPath>Jaffa/Head/Male_Average_Wide</graphicPath>
+    <gender>Male</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Male_Narrow_Normal</defName>
+    <graphicPath>Jaffa/Head/Male_Narrow_Normal</graphicPath>
+    <gender>Male</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Male_Narrow_Pointy</defName>
+    <graphicPath>Jaffa/Head/Male_Narrow_Pointy</graphicPath>
+    <gender>Male</gender>
+  </HeadTypeDef>
+  <HeadTypeDef ParentName="AverageBase">
+    <defName>Jaffa_Male_Narrow_Wide</defName>
+    <graphicPath>Jaffa/Head/Male_Narrow_Wide</graphicPath>
+    <gender>Male</gender>
+  </HeadTypeDef>
+</Defs>

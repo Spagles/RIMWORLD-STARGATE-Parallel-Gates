@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <BodyPartDef>
+    <defName>JaffaPouch</defName>
+    <label>pouch</label>
+    <hitPoints>25</hitPoints>
+    <skinCovered>false</skinCovered>
+  </BodyPartDef>
+</Defs>

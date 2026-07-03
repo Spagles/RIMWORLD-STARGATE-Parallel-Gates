@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <Jaffa_Armor.label>jaffská zbroj</Jaffa_Armor.label>
+  <Jaffa_Armor.description>Mocná jaffská zbroj používaná válečníky všech Goa'uldů.</Jaffa_Armor.description>
+
+  <Jaffa_Helmet.label>jaffská přilba</Jaffa_Helmet.label>
+  <Jaffa_Helmet.description>Tato základní jaffská přilba neposkytuje velkou ochranu, ale je lehká.</Jaffa_Helmet.description>
+
+  <Jaffa_HorusHelmet.label>přilba Horovy gardy</Jaffa_HorusHelmet.label>
+  <Jaffa_HorusHelmet.description>Tuto přilbu nosí Horova garda vedená Goa'uldem Ra.</Jaffa_HorusHelmet.description>
+
+  <Jaffa_JackalHelmet.label>přilba Šakalí gardy</Jaffa_JackalHelmet.label>
+  <Jaffa_JackalHelmet.description>Tuto šakalí přilbu nosí Šakalí garda vedená Goa'uldem Anubisem.</Jaffa_JackalHelmet.description>
+
+  <Jaffa_SnakeHelmet.label>přilba Hadí gardy</Jaffa_SnakeHelmet.label>
+  <Jaffa_SnakeHelmet.description>Tuto hadí přilbu nosí Hadí garda vedená Goa'uldem Apophisem.</Jaffa_SnakeHelmet.description>
+</LanguageData>

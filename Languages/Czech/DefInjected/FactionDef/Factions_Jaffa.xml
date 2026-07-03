@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <JaffaApophis.label>Hadí Jaffové</JaffaApophis.label>
+  <JaffaApophis.description>Apophis byl kdysi mimořádně mocný goa'uldský Vládce soustavy. Bratr nejvyššího Vládce soustavy Ra původně velel menší flotile, ale postupně získal sílu a moc několika Vládců soustav, kteří během jeho vlády padli.</JaffaApophis.description>
+  <JaffaApophis.fixedName>Vládce soustavy Apophis</JaffaApophis.fixedName>
+
+  <JaffaAnubis.label>Šakalí Jaffové</JaffaAnubis.label>
+  <JaffaAnubis.description>Anubis byl jedním z nejmocnějších a nejnebezpečnějších Goa'uldů v dějinách. Kdysi mocný Vládce soustavy byl Raem a ostatními vyhnán za činy považované za nepřijatelné i mezi Goa'uldy. Mělo se za to, že byl zničen, ale unikl a lstí přiměl Omu Desalu, aby mu pomohla povznést se.</JaffaAnubis.description>
+  <JaffaAnubis.fixedName>Vládce soustavy Anubis</JaffaAnubis.fixedName>
+
+  <JaffaRa.label>Horovi Jaffové</JaffaRa.label>
+  <JaffaRa.description>Ra byl goa'uldský Vládce soustavy zosobňující egyptského boha slunce a první, kdo objevil Tau'ri. Jeho družkou byla Hathor, s níž měl syna Heru'ura, a jeho bratrem byl Apophis. Jeho elitní Jaffové byli Horova garda. Díky své moci, autoritě a lstivosti byl Ra nejmocnějším z Vládců soustav.</JaffaRa.description>
+  <JaffaRa.fixedName>Vládce soustavy Ra</JaffaRa.fixedName>
+</LanguageData>

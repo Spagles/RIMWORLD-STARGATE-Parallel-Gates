@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef>
+    <defName>StarGate</defName>
+    <label>StarGate</label>
+    <description>An ancient ring-shaped device of unknown origin. It appears dormant, but its construction suggests a purpose far beyond decoration.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Things/Building/Stargate/StarGate</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <size>(3,1)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>30</pathCost>
+    <fillPercent>0.35</fillPercent>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MaxHitPoints>1200</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Beauty>20</Beauty>
+    </statBases>
+    <building>
+      <isInert>true</isInert>
+      <deconstructible>false</deconstructible>
+    </building>
+    <comps>
+      <li Class="RimGateJaffaKree.CompProperties_StarGate">
+        <onlineTexPath>Things/Building/Stargate/StarGate_Online</onlineTexPath>
+        <warmupTicks>120</warmupTicks>
+        <stayOnlineTicks>900</stayOnlineTicks>
+        <postTravelOnlineTicks>180</postTravelOnlineTicks>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

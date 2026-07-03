@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef Name="BaseGunJaffa" Abstract="True" ParentName="BaseGunWithQuality">
+    <techLevel>Ultra</techLevel>
+    <weaponTags>
+      <li>JaffaWeapons</li>
+    </weaponTags>
+    <smeltable>false</smeltable>
+  </ThingDef>
+  <!-- ============================ Ma'Tok Staff ========================== -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_JaffaStaff</defName>
+    <label>staff shot</label>
+    <graphicData>
+      <texPath>Things/Projectile/LauncherShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <flyOverhead>false</flyOverhead>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>13</damageAmountBase>
+      <speed>60</speed>
+    </projectile>
+  </ThingDef>
+  <ThingDef Name="Gun_JaffaStaff" ParentName="BaseGunJaffa">
+    <defName>Gun_JaffaStaff_blue</defName>
+    <label>Ma'Tok Staff</label>
+    <description>The Ma'Tok staff is the primary weapon of Jaffa warriors.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/Weapons/staff_blue</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Autopistol</soundInteract>
+    <statBases>
+      <Mass>3.4</Mass>
+      <AccuracyTouch>0.80</AccuracyTouch>
+      <AccuracyShort>0.87</AccuracyShort>
+      <AccuracyMedium>0.77</AccuracyMedium>
+      <AccuracyLong>0.64</AccuracyLong>
+      <RangedWeapon_Cooldown>1.26</RangedWeapon_Cooldown>
+      <MarketValue>200</MarketValue>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_JaffaStaff</defaultProjectile>
+        <warmupTime>0.9</warmupTime>
+        <range>30</range>
+        <soundCast>Staff_Fire</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>JaffaGun</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>haft</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>1.6</cooldownTime>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>1.6</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+  <ThingDef ParentName="Gun_JaffaStaff">
+    <defName>Gun_JaffaStaff_violet</defName>
+    <graphicData>
+      <texPath>Things/Item/Equipment/Weapons/staff_violet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+  </ThingDef>
+  <!-- ============================ Zat'nik'tel ========================== -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>Bullet_Zat</defName>
+    <label>zat'nik'tel shot</label>
+    <graphicData>
+      <texPath>Things/Item/Equipment/Weapons/Projectile/bullet_zat</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <flyOverhead>false</flyOverhead>
+      <damageDef>Stun</damageDef>
+      <damageAmountBase>3</damageAmountBase>
+      <speed>40</speed>
+    </projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseGunJaffa">
+    <defName>Gun_Zat</defName>
+    <label>Zat'nik'tel</label>
+    <description>This is a Goa'uld Zat'nik'tel. A weapon using a different form of energy, less powerful than that of a staff weapon. Less destructive, but still quite deadly.  One shot can incapacitate a victim.</description>
+    <graphicData>
+      <texPath>Things/Item/Equipment/Weapons/zat2</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <soundInteract>Interact_Zat</soundInteract>
+    <statBases>
+      <Mass>1.2</Mass>
+      <AccuracyTouch>0.91</AccuracyTouch>
+      <AccuracyShort>0.71</AccuracyShort>
+      <AccuracyMedium>0.50</AccuracyMedium>
+      <AccuracyLong>0.32</AccuracyLong>
+      <RangedWeapon_Cooldown>1.26</RangedWeapon_Cooldown>
+      <MarketValue>300</MarketValue>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>Bullet_Zat</defaultProjectile>
+        <warmupTime>0.3</warmupTime>
+        <range>23</range>
+        <soundCast>ZatGun_Fire</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <weaponTags>
+      <li>JaffaGun</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>grip</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>1.6</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>1.6</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+</Defs>

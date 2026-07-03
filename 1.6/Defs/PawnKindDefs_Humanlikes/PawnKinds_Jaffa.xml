@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- ============================ Jaffa Base ========================== -->
+  <PawnKindDef Name="JaffaBase" Abstract="True">
+    <race>Alien_Jaffa_Base</race>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <initialWillRange>3~5</initialWillRange>
+    <initialResistanceRange>45~54</initialResistanceRange>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>Outlander</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <apparelAllowHeadgearChance>0.50</apparelAllowHeadgearChance>
+    <isFighter>true</isFighter>
+    <gearHealthRange>
+      <min>0.2</min>
+      <max>2.0</max>
+    </gearHealthRange>
+    <apparelMoney>
+      <min>200</min>
+      <max>500</max>
+    </apparelMoney>
+    <weaponMoney>
+      <min>300</min>
+      <max>1250</max>
+    </weaponMoney>
+    <weaponTags>
+      <li>JaffaWeapons</li>
+    </weaponTags>
+    <techHediffsChance>0</techHediffsChance>
+    <invNutrition>2.55</invNutrition>
+    <inventoryOptions>
+      <skipChance>0.75</skipChance>
+      <subOptionsChooseOne>
+        <li>
+          <choiceChance>90</choiceChance>
+          <thingDef>Silver</thingDef>
+          <countRange>
+            <min>25</min>
+            <max>70</max>
+          </countRange>
+        </li>
+        <li>
+          <choiceChance>10</choiceChance>
+          <thingDef>Silver</thingDef>
+          <countRange>
+            <min>700</min>
+            <max>1000</max>
+          </countRange>
+        </li>
+      </subOptionsChooseOne>
+    </inventoryOptions>
+  </PawnKindDef>
+  <!-- ============================ Jaffa Warrior ========================== -->
+  <PawnKindDef Name="JaffaWarrior" ParentName="JaffaBase">
+    <defName>JaffaWarrior01</defName>
+    <label>jaffa warrior</label>
+    <defaultFactionType>JaffaApophis</defaultFactionType>
+    <combatPower>50</combatPower>
+    <apparelMoney>
+      <min>2300</min>
+      <max>7000</max>
+    </apparelMoney>
+    <apparelTags>
+      <li>JaffaWarriorArmor</li>
+      <li>JaffaArmor</li>
+      <li>JaffaWarrior</li>
+    </apparelTags>
+  </PawnKindDef>
+  <PawnKindDef ParentName="JaffaWarrior">
+    <defName>JaffaWarrior02</defName>
+    <label>jaffa warrior</label>
+    <defaultFactionType>JaffaAnubis</defaultFactionType>
+    <combatPower>50</combatPower>
+  </PawnKindDef>
+  <PawnKindDef ParentName="JaffaWarrior">
+    <defName>JaffaWarrior03</defName>
+    <label>jaffa warrior</label>
+    <defaultFactionType>JaffaRa</defaultFactionType>
+    <combatPower>50</combatPower>
+  </PawnKindDef>
+  <!-- ============================ Jaffa Guard Base ========================== -->
+  <PawnKindDef Name="JaffaGuard" ParentName="JaffaBase" Abstract="True">
+    <combatPower>100</combatPower>
+    <initialWillRange>3~6</initialWillRange>
+    <initialResistanceRange>55~64</initialResistanceRange>
+    <itemQuality>Good</itemQuality>
+    <gearHealthRange>
+      <min>0.2</min>
+      <max>2.0</max>
+    </gearHealthRange>
+    <apparelMoney>
+      <min>2300</min>
+      <max>7000</max>
+    </apparelMoney>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <weaponMoney>
+      <min>200</min>
+      <max>2500</max>
+    </weaponMoney>
+  </PawnKindDef>
+  <!-- ============================ Jaffa Guards ========================== -->
+  <PawnKindDef ParentName="JaffaGuard">
+    <defName>SerpentGuard</defName>
+    <label>serpent guard</label>
+    <defaultFactionType>JaffaApophis</defaultFactionType>
+    <apparelTags>
+      <li>JaffaArmor</li>
+      <li>JaffaGuard</li>
+      <li>JaffaSnake</li>
+      <li>JaffaSnakeGuard</li>
+    </apparelTags>
+  </PawnKindDef>
+  <PawnKindDef ParentName="JaffaGuard">
+    <defName>HorusGuard</defName>
+    <label>horus guard</label>
+    <defaultFactionType>JaffaRa</defaultFactionType>
+    <apparelTags>
+      <li>JaffaArmor</li>
+      <li>JaffaGuard</li>
+      <li>JaffaHorus</li>
+      <li>JaffaHorusGuard</li>
+    </apparelTags>
+  </PawnKindDef>
+  <PawnKindDef ParentName="JaffaGuard">
+    <defName>JackalGuard</defName>
+    <label>jackal guard</label>
+    <defaultFactionType>JaffaAnubis</defaultFactionType>
+    <apparelTags>
+      <li>JaffaArmor</li>
+      <li>JaffaGuard</li>
+      <li>JaffaJackal</li>
+      <li>JaffaJackalGuard</li>
+    </apparelTags>
+  </PawnKindDef>
+  <PawnKindDef ParentName="JaffaGuard">
+    <defName>JaffaLeader</defName>
+    <label>jaffa leader</label>
+    <factionLeader>true</factionLeader>
+    <apparelTags>
+      <li>JaffaArmor</li>
+      <li>JaffaGuard</li>
+      <li>JaffaJackal</li>
+      <li>JaffaJackalGuard</li>
+      <li>JaffaSnake</li>
+      <li>JaffaSnakeGuard</li>
+      <li>JaffaHorus</li>
+      <li>JaffaHorusGuard</li>
+      <li>JaffaWarriorArmor</li>
+      <li>JaffaWarrior</li>
+    </apparelTags>
+    <apparelMoney>
+      <min>2300</min>
+      <max>12000</max>
+    </apparelMoney>
+    <weaponMoney>
+      <min>200</min>
+      <max>25000</max>
+    </weaponMoney>
+  </PawnKindDef>
+</Defs>

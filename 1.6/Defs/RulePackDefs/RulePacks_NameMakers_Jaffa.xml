@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RulePackDef>
+    <defName>NamerPersonJaffa</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>name-&gt;[Firstjaf] [Lastjaf]</li>
+        <li>name-&gt;[comboname] [Lastjaf]</li>
+        <li>comboname-&gt;[Jaf_firstp][Jaf_secp]</li>
+      </rulesStrings>
+      <rulesRaw>
+        <li Class="Rule_File">
+          <keyword>Firstjaf</keyword>
+          <path>NameBanks/Names_First_Jaffa</path>
+        </li>
+        <li Class="Rule_File">
+          <keyword>Lastjaf</keyword>
+          <path>NameBanks/Names_Last_Jaffa</path>
+        </li>
+        <li Class="Rule_File">
+          <keyword>Jaf_firstp</keyword>
+          <path>NameBanks/Names_FirstPart_Jaffa</path>
+        </li>
+        <li Class="Rule_File">
+          <keyword>Jaf_secp</keyword>
+          <path>NameBanks/Names_SecPart_Jaffa</path>
+        </li>
+      </rulesRaw>
+    </rulePack>
+  </RulePackDef>
+</Defs>
