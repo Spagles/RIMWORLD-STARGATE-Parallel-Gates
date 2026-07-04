@@ -36,8 +36,11 @@ namespace RimGateJaffaKree
             {
                 initAction = delegate
                 {
-                    CompStarGate gate = Panel.TryGetComp<CompStarGateControlPanel>()?.LinkedGate();
-                    gate?.StartWarmup();
+                    CompStarGateControlPanel panelComp = Panel.TryGetComp<CompStarGateControlPanel>();
+                    if (panelComp != null)
+                    {
+                        Find.WindowStack.Add(new Dialog_StarGateDialPanel(panelComp));
+                    }
                 },
                 defaultCompleteMode = ToilCompleteMode.Instant
             };

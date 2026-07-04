@@ -25,6 +25,7 @@ namespace RimGateJaffaKree
     {
         private int warmupTicksLeft;
         private int onlineTicksLeft;
+        private string dialedAddress;
         private List<Graphic> onlineGraphics;
 
         private CompProperties_StarGate Props => (CompProperties_StarGate)props;
@@ -59,6 +60,7 @@ namespace RimGateJaffaKree
             base.PostExposeData();
             Scribe_Values.Look(ref warmupTicksLeft, "warmupTicksLeft", 0);
             Scribe_Values.Look(ref onlineTicksLeft, "onlineTicksLeft", 0);
+            Scribe_Values.Look(ref dialedAddress, "dialedAddress");
         }
 
         public override void CompTick()
@@ -153,6 +155,13 @@ namespace RimGateJaffaKree
             warmupTicksLeft = Props.warmupTicks;
             Messages.Message("StarGate se spousti.", parent, MessageTypeDefOf.NeutralEvent, false);
         }
+
+        public void SetDialedAddress(string address)
+        {
+            dialedAddress = address;
+        }
+
+        public string DialedAddress => dialedAddress;
 
         public void BringOnline(int ticks)
         {
