@@ -9,6 +9,8 @@ namespace RimGateJaffaKree
     public class CompProperties_StarGate : CompProperties
     {
         public string onlineTexPath;
+        public List<string> onlineTexPaths;
+        public int onlineAnimationTicks = 15;
         public int warmupTicks = 120;
         public int stayOnlineTicks = 600;
         public int postTravelOnlineTicks = 180;
@@ -23,22 +25,32 @@ namespace RimGateJaffaKree
     {
         private int warmupTicksLeft;
         private int onlineTicksLeft;
-        private Graphic onlineGraphic;
+        private List<Graphic> onlineGraphics;
 
         private CompProperties_StarGate Props => (CompProperties_StarGate)props;
-        private bool IsOnline => onlineTicksLeft > 0;
-        private bool IsWarmingUp => warmupTicksLeft > 0;
+        public bool IsOnline => onlineTicksLeft > 0;
+        public bool IsWarmingUp => warmupTicksLeft > 0;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            if (!Props.onlineTexPath.NullOrEmpty())
+
+            List<string> texPaths = Props.onlineTexPaths;
+            if ((texPaths == null || texPaths.Count == 0) && !Props.onlineTexPath.NullOrEmpty())
             {
-                onlineGraphic = GraphicDatabase.Get<Graphic_Single>(
-                    Props.onlineTexPath,
-                    ShaderDatabase.Cutout,
-                    parent.Graphic.drawSize,
-                    Color.white);
+                texPaths = new List<string> { Props.onlineTexPath };
+            }
+
+            if (texPaths != null && texPaths.Count > 0)
+            {
+                onlineGraphics = texPaths
+                    .Where(path => !path.NullOrEmpty())
+                    .Select(path => GraphicDatabase.Get<Graphic_Single>(
+                        path,
+                        ShaderDatabase.Cutout,
+                        parent.Graphic.drawSize,
+                        Color.white))
+                    .ToList();
             }
         }
 
@@ -58,7 +70,7 @@ namespace RimGateJaffaKree
                 warmupTicksLeft--;
                 if (warmupTicksLeft == 0)
                 {
-                    BringOnline(Props.stayOnlineTicks);
+                    ActivateLinkedGates();
                 }
             }
             else if (onlineTicksLeft > 0)
@@ -70,9 +82,11 @@ namespace RimGateJaffaKree
         public override void PostDraw()
         {
             base.PostDraw();
-            if (IsOnline && onlineGraphic != null)
+            if (IsOnline && onlineGraphics != null && onlineGraphics.Count > 0)
             {
-                onlineGraphic.Draw(parent.DrawPos, parent.Rotation, parent);
+                int frameTicks = Mathf.Max(1, Props.onlineAnimationTicks);
+                int frame = (Find.TickManager.TicksGame / frameTicks) % onlineGraphics.Count;
+                onlineGraphics[frame].Draw(parent.DrawPos, parent.Rotation, parent);
             }
         }
 
@@ -97,24 +111,6 @@ namespace RimGateJaffaKree
             {
                 yield return gizmo;
             }
-
-            Command_Action command = new Command_Action
-            {
-                defaultLabel = IsOnline ? "StarGate online" : IsWarmingUp ? "StarGate se spousti" : "Zapnout StarGate",
-                defaultDesc = "Spusti branu. Po kratkem nabehu prejde do online stavu.",
-                icon = ContentFinder<Texture2D>.Get("Things/Building/Stargate/StarGate", false),
-                action = delegate
-                {
-                    StartWarmup();
-                }
-            };
-
-            if (IsOnline || IsWarmingUp)
-            {
-                command.Disable(IsOnline ? "Brana uz je online." : "Brana se prave spousti.");
-            }
-
-            yield return command;
         }
 
         public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
@@ -137,27 +133,17 @@ namespace RimGateJaffaKree
 
             if (!IsOnline)
             {
-                yield return new FloatMenuOption("Zapnout StarGate", delegate
-                {
-                    StartWarmup();
-                });
-                yield break;
-            }
-
-            CompStarGate destination = FindDestination();
-            if (destination == null)
-            {
-                yield return new FloatMenuOption("Projit: neni dostupna druha StarGate", null);
+                yield return new FloatMenuOption("StarGate se ovlada pouze panelem", null);
                 yield break;
             }
 
             yield return new FloatMenuOption("Projit", delegate
             {
-                Travel(selPawn, destination);
+                StarGateTravelUtility.TravelThrough(this, selPawn);
             });
         }
 
-        private void StartWarmup()
+        public void StartWarmup()
         {
             if (IsOnline || IsWarmingUp)
             {
@@ -168,44 +154,26 @@ namespace RimGateJaffaKree
             Messages.Message("StarGate se spousti.", parent, MessageTypeDefOf.NeutralEvent, false);
         }
 
-        private void BringOnline(int ticks)
+        public void BringOnline(int ticks)
         {
             onlineTicksLeft = Mathf.Max(onlineTicksLeft, ticks);
             warmupTicksLeft = 0;
             parent.Map?.mapDrawer.MapMeshDirty(parent.Position, MapMeshFlagDefOf.Things);
-            Messages.Message("StarGate je online.", parent, MessageTypeDefOf.PositiveEvent, false);
         }
 
-        private void Travel(Pawn pawn, CompStarGate destination)
+        public void ActivateLinkedGates()
         {
-            if (pawn == null || destination == null || !pawn.Spawned)
+            BringOnline(Props.stayOnlineTicks);
+
+            CompStarGate destination = FindDestination();
+            if (destination != null)
             {
-                return;
-            }
-
-            IntVec3 targetCell = CellFinder.StandableCellNear(destination.parent.Position, destination.parent.Map, 4f);
-            if (!targetCell.IsValid)
-            {
-                Messages.Message("U cilove StarGate neni volne misto.", destination.parent, MessageTypeDefOf.RejectInput, false);
-                return;
-            }
-
-            BringOnline(Props.postTravelOnlineTicks);
-            destination.BringOnline(destination.Props.postTravelOnlineTicks);
-
-            Map oldMap = pawn.Map;
-            pawn.DeSpawn(DestroyMode.Vanish);
-            GenSpawn.Spawn(pawn, targetCell, destination.parent.Map);
-            pawn.Notify_Teleported(false, true);
-            CameraJumper.TryJump(pawn);
-
-            if (oldMap == destination.parent.Map)
-            {
-                Messages.Message("Kolonista prosel StarGate.", pawn, MessageTypeDefOf.PositiveEvent, false);
+                destination.BringOnline(destination.Props.stayOnlineTicks);
+                Messages.Message("StarGate spojeni je aktivni.", parent, MessageTypeDefOf.PositiveEvent, false);
             }
             else
             {
-                Messages.Message("Kolonista prosel StarGate na jinou mapu.", pawn, MessageTypeDefOf.PositiveEvent, false);
+                Messages.Message("StarGate je online, ale neni dostupna druha brana.", parent, MessageTypeDefOf.NeutralEvent, false);
             }
         }
 

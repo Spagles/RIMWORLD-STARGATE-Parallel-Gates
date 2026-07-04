@@ -7,13 +7,13 @@
     <thingClass>Building</thingClass>
     <category>Building</category>
     <graphicData>
-      <texPath>Things/Building/Stargate/StarGate</texPath>
+      <texPath>Things/Building/Stargate/Offline_Gate</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(3,3)</drawSize>
+      <drawSize>(5.5,3)</drawSize>
       <drawRotated>false</drawRotated>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
-    <size>(3,1)</size>
+    <size>(5,2)</size>
     <passability>PassThroughOnly</passability>
     <pathCost>30</pathCost>
     <fillPercent>0.35</fillPercent>
@@ -31,11 +31,76 @@
     </building>
     <comps>
       <li Class="RimGateJaffaKree.CompProperties_StarGate">
-        <onlineTexPath>Things/Building/Stargate/StarGate_Online</onlineTexPath>
+        <onlineTexPaths>
+          <li>Things/Building/Stargate/Online_Gate1</li>
+          <li>Things/Building/Stargate/Online_Gate2</li>
+        </onlineTexPaths>
+        <onlineAnimationTicks>15</onlineAnimationTicks>
         <warmupTicks>120</warmupTicks>
-        <stayOnlineTicks>900</stayOnlineTicks>
-        <postTravelOnlineTicks>180</postTravelOnlineTicks>
+        <stayOnlineTicks>1800</stayOnlineTicks>
+        <postTravelOnlineTicks>600</postTravelOnlineTicks>
       </li>
     </comps>
   </ThingDef>
+
+  <ThingDef>
+    <defName>StarGate_Control_Panel</defName>
+    <label>StarGate control panel</label>
+    <description>A nearby control device used to establish a connection between StarGates.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Things/Building/StargatePanel/Neaktivni_panel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.5,1)</drawSize>
+      <drawRotated>false</drawRotated>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <size>(1,1)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>10</pathCost>
+    <fillPercent>0.2</fillPercent>
+    <rotatable>false</rotatable>
+    <tickerType>Normal</tickerType>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Beauty>4</Beauty>
+    </statBases>
+    <building>
+      <isInert>true</isInert>
+      <deconstructible>false</deconstructible>
+    </building>
+    <comps>
+      <li Class="RimGateJaffaKree.CompProperties_StarGateControlPanel">
+        <activeTexPath>Things/Building/StargatePanel/Aktivni_panel</activeTexPath>
+        <interactionTicks>180</interactionTicks>
+        <linkedGateSearchRadius>8</linkedGateSearchRadius>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>UseStarGateControlPanel</defName>
+    <driverClass>RimGateJaffaKree.JobDriver_UseStarGateControlPanel</driverClass>
+    <reportString>uses StarGate control panel.</reportString>
+  </JobDef>
+
+  <WorldObjectDef>
+    <defName>StarGateWorldSite</defName>
+    <label>StarGate</label>
+    <description>An ancient dormant gate hidden somewhere on this world.</description>
+    <worldObjectClass>MapParent</worldObjectClass>
+    <texture>Things/Building/Stargate/Offline_Gate</texture>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconPriority>65</expandingIconPriority>
+    <canHaveMap>true</canHaveMap>
+    <canBePlayerHome>false</canBePlayerHome>
+    <mapGenerator>Base_Player</mapGenerator>
+    <overrideMapSize>(150, 1, 150)</overrideMapSize>
+    <comps>
+      <li Class="WorldObjectCompProperties_FormCaravan" />
+    </comps>
+  </WorldObjectDef>
 </Defs>

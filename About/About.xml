@@ -28,8 +28,9 @@
 Current MVP features:
 - Jaffa race, factions, armor, helmets, weapons, sounds, and names updated for RimWorld 1.6.
 - Czech localization for current custom content.
-- Spawnable StarGate building.
-- StarGate warmup, online/offline visual state, and basic pawn travel between two spawned gates on loaded maps.
+- Spawnable StarGate building and StarGate control panel.
+- StarGate warmup, animated online/offline visual state, and panel-driven activation.
+- Pawn and group travel from a home gate to a generated remote StarGate map and back.
 
 Requirements:
 - Humanoid Alien Races
@@ -38,5 +39,5 @@ Credits:
 Based on RimGate Jaffa/Kree by Helixien, Xen, Mlie and contributors, with original texture credits to Carnov and Humanoid Alien Races work by CPT.OHU/Erdelf and contributors.
 
 This is an unofficial fan mod and is not affiliated with or endorsed by MGM, Amazon, Ludeon Studios, or the original mod authors.</description>
-  <modVersion IgnoreIfNoMatchingField="True">0.0.1</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">0.0.2</modVersion>
 </ModMetaData>
