@@ -21,6 +21,7 @@ namespace RimGateJaffaKree
             List<Pawn> pawns = SelectedTravelPawns(selectedPawn, origin.parent.Map);
             LongEventHandler.QueueLongEvent(delegate
             {
+                PrimeOffworldPlanet();
                 Map destinationMap = DestinationMapFor(origin.parent.Map);
                 if (destinationMap == null)
                 {
@@ -39,6 +40,18 @@ namespace RimGateJaffaKree
                 destinationGate.BringOnline(600);
                 MovePawns(pawns, destinationGate);
             }, "StarGate_TravelingWormhole", false, null);
+        }
+
+        private static void PrimeOffworldPlanet()
+        {
+            StarGatePlanetSystem planetSystem = Current.Game.GetComponent<StarGatePlanetSystem>();
+            if (planetSystem == null)
+            {
+                return;
+            }
+
+            StarGatePlanetRecord record = planetSystem.EnsurePrimaryOffworldPlanet();
+            planetSystem.EnsureTransientWorld(record);
         }
 
         public static CompStarGate EnsureGateOnMap(Map map)
