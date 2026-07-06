@@ -9,6 +9,7 @@ namespace RimGateJaffaKree
     public static class StarGateDefOf
     {
         public static JobDef UseStarGateControlPanel;
+        public static JobDef EnterStarGate;
     }
 
     public class JobDriver_UseStarGateControlPanel : JobDriver
@@ -36,8 +37,11 @@ namespace RimGateJaffaKree
             {
                 initAction = delegate
                 {
-                    CompStarGate gate = Panel.TryGetComp<CompStarGateControlPanel>()?.LinkedGate();
-                    gate?.StartWarmup();
+                    CompStarGateControlPanel panelComp = Panel.TryGetComp<CompStarGateControlPanel>();
+                    if (panelComp != null)
+                    {
+                        Find.WindowStack.Add(new Dialog_StarGateDialPanel(panelComp));
+                    }
                 },
                 defaultCompleteMode = ToilCompleteMode.Instant
             };

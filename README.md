@@ -1,34 +1,113 @@
 # RIMWORLD-STARGATE: Parallel Gates
 
-A RimWorld 1.6 Stargate-inspired mod prototype built from the RimGate Jaffa/Kree mod base.
+`RIMWORLD-STARGATE: Parallel Gates` is a RimWorld 1.6 Stargate prototype mod based on the RimGate Jaffa/Kree mod base.
 
-This first release keeps the Jaffa race, factions, armor, helmets, weapons, sounds, and textures working on RimWorld 1.6, and adds the first playable StarGate MVP.
+It keeps the original Jaffa content alive on RimWorld 1.6 and expands it with a playable Stargate system focused on dialing, travel, generated destinations, and incoming gate events.
 
 ## Current Features
 
-- RimWorld 1.6 support.
-- Humanoid Alien Races dependency support.
-- Jaffa race, factions, pawn kinds, apparel, weapons, sounds, and name banks.
-- Czech localization for the custom mod content added/updated so far.
-- Spawnable `StarGate` building through dev mode.
-- StarGate activation flow:
-  - right-click / command interaction to start the gate,
-  - short warmup,
-  - online state with separate online texture,
-  - pawn travel between two spawned gates on loaded maps,
-  - automatic return to offline state.
+From the original mod base and earlier Parallel Gates work:
 
-## Requirements
+- RimWorld 1.6 support
+- Humanoid Alien Races support
+- Jaffa race content
+- Jaffa factions:
+  - Apophis
+  - Anubis
+  - Ra
+- Jaffa pawn kinds
+- Jaffa armor, helmets, weapons, sounds, and naming content
+- Czech localization support for updated mod content
 
-- RimWorld 1.6
-- Humanoid Alien Races
+From the current Parallel Gates implementation:
 
-## Development Notes
+- Automatic home StarGate spawn on a new game
+- Automatic StarGate control panel support
+- Manual 7-symbol dialing system
+- Address Book
+- Galaxy browser
+- Generated offworld destination maps
+- Stable saved addresses and generated destinations
+- Return travel to the home world
+- Incoming Stargate events:
+  - raids
+  - traders
+  - ally / visitor arrivals
+- DevTools support for Stargate testing
 
-The current StarGate system is an MVP. It supports travel between two gates that already exist on loaded maps. It does not yet generate destination world sites, dialing addresses, power costs, events, hostile arrivals, or custom map generation.
+## Release v0.0.3
+
+### Added
+
+- Automatic home StarGate spawn on a new game
+- Control panel based gate workflow
+- Manual 7-symbol dialing
+- Address Book and Galaxy browser
+- Generated offworld Stargate destinations
+- Return-home travel loop
+- Incoming Stargate events:
+  - raids
+  - traders
+  - ally / visitor groups
+- DevTools actions for Stargate testing
+- Better installation documentation
+
+### Changed
+
+- Stargate travel now behaves more like a real gameplay system instead of a simple two-gate local test
+- UI readability for Address Book and Galaxy was improved
+- Gate and control panel visuals now use more natural shadows
+
+### For Players
+
+- You can start a new game and immediately get a usable home Stargate setup
+- Destination maps are now much closer to a real playable preview experience
+- The mod is in a much better state for public community testing
+
+Full player-facing version notes are in [Release_Notes.md](</C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/Rimworld@Gate/Release_Notes.md>).
+
+## Tutorial
+
+### What to download
+
+1. Download this repository from GitHub as ZIP, or clone it with Git.
+2. Extract the downloaded archive if needed.
+3. You should end up with the full mod folder: `Rimworld@Gate`
+
+### Where to install it
+
+Copy the full mod folder into:
+
+`C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods`
+
+After copying, the result should look like:
+
+`C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Rimworld@Gate`
+
+### What else you need enabled in RimWorld
+
+Enable these mods in this order:
+
+1. `Harmony`
+2. `Humanoid Alien Races`
+3. `RIMWORLD-STARGATE: Parallel Gates`
+
+Then restart RimWorld when the game asks for it.
+
+### Important notes
+
+- A full game restart is recommended after every manual update
+- DevTools are useful for testing Stargate features, but not required for normal play
+- For a bilingual installation guide, see [HOWTOINSTALL.md](</C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/Rimworld@Gate/HOWTOINSTALL.md>)
+
+## Community
+
+- Discord: [https://discord.gg/SjSH9Tkpf](https://discord.gg/SjSH9Tkpf)
+- Website: [https://stargatemod.page.gd/](https://stargatemod.page.gd/)
+- YouTube: [https://www.youtube.com/@panzmoravylab](https://www.youtube.com/@panzmoravylab)
 
 ## Credits
 
-This project started from the continued RimGate Jaffa/Kree mod maintained by Mlie, based on work by Helixien, Xen, Carnov, CPT.OHU, and Erdelf/Humanoid Alien Races.
+This project started from the continued RimGate Jaffa/Kree mod maintained by Mlie, based on work by Helixien, Xen, Carnov, CPT.OHU, and Erdelf / Humanoid Alien Races.
 
-Stargate-inspired additions and the current Parallel Gates prototype are maintained by panzmoravylab.
+The current Parallel Gates development is maintained by panzmoravylab.

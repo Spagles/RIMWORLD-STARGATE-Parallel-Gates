@@ -11,6 +11,10 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(5.5,3)</drawSize>
       <drawRotated>false</drawRotated>
+      <shadowData>
+        <volume>(3.8, 0.25, 1.25)</volume>
+        <offset>(0, 0, -0.18)</offset>
+      </shadowData>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
     <size>(5,2)</size>
@@ -39,6 +43,10 @@
         <warmupTicks>120</warmupTicks>
         <stayOnlineTicks>1800</stayOnlineTicks>
         <postTravelOnlineTicks>600</postTravelOnlineTicks>
+        <kawooshTicks>24</kawooshTicks>
+        <kawooshLength>2.5</kawooshLength>
+        <kawooshWidth>2</kawooshWidth>
+        <drawPlaceholderKawoosh>false</drawPlaceholderKawoosh>
       </li>
     </comps>
   </ThingDef>
@@ -54,6 +62,10 @@
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1.5,1)</drawSize>
       <drawRotated>false</drawRotated>
+      <shadowData>
+        <volume>(0.85, 0.16, 0.45)</volume>
+        <offset>(0, 0, -0.08)</offset>
+      </shadowData>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
     <size>(1,1)</size>
@@ -86,6 +98,49 @@
     <driverClass>RimGateJaffaKree.JobDriver_UseStarGateControlPanel</driverClass>
     <reportString>uses StarGate control panel.</reportString>
   </JobDef>
+
+  <JobDef>
+    <defName>EnterStarGate</defName>
+    <driverClass>RimGateJaffaKree.JobDriver_EnterStarGate</driverClass>
+    <reportString>enters the StarGate.</reportString>
+  </JobDef>
+
+  <GenStepDef>
+    <defName>StarGatePlanetSurface</defName>
+    <order>100</order>
+    <genStep Class="RimGateJaffaKree.GenStep_StarGatePlanetSurface" />
+  </GenStepDef>
+
+  <MapGeneratorDef>
+    <defName>StarGatePlanet</defName>
+    <label>StarGate planet</label>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <genSteps>
+      <li>StarGatePlanetSurface</li>
+    </genSteps>
+    <pocketMapProperties>
+      <biome>TemperateForest</biome>
+      <temperature>21</temperature>
+      <destroyOnParentMapAbandoned>false</destroyOnParentMapAbandoned>
+      <preventPrisonerEscape>true</preventPrisonerEscape>
+      <canBeCleaned>true</canBeCleaned>
+    </pocketMapProperties>
+  </MapGeneratorDef>
+
+  <WorldObjectDef>
+    <defName>StarGatePocketPlanet</defName>
+    <label>StarGate planet</label>
+    <description>A generated destination reached through a StarGate address.</description>
+    <worldObjectClass>MapParent</worldObjectClass>
+    <texture>Things/Building/Stargate/Offline_Gate</texture>
+    <selectable>false</selectable>
+    <expandingIcon>false</expandingIcon>
+    <canHaveMap>true</canHaveMap>
+    <canBePlayerHome>false</canBePlayerHome>
+    <mapGenerator>Base_Player</mapGenerator>
+    <overrideMapSize>(150, 1, 150)</overrideMapSize>
+  </WorldObjectDef>
 
   <WorldObjectDef>
     <defName>StarGateWorldSite</defName>
