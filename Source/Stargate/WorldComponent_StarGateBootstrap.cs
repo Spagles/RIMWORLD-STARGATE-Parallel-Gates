@@ -1,6 +1,5 @@
-using System.Linq;
-using RimWorld;
 using RimWorld.Planet;
+using System.Linq;
 using Verse;
 
 namespace RimGateJaffaKree
@@ -16,86 +15,30 @@ namespace RimGateJaffaKree
         public override void WorldComponentTick()
         {
             base.WorldComponentTick();
-            if (!ensuredWorldGate)
+            if (ensuredWorldGate || Current.Game == null || Current.ProgramState != ProgramState.Playing)
             {
-                EnsureWorldGate();
+                return;
             }
+
+            Map homeMap = Current.Game.Maps?.FirstOrDefault(map => map != null && map.IsPlayerHome);
+            if (homeMap == null)
+            {
+                return;
+            }
+
+            CompStarGate gate = StarGateTravelUtility.EnsureGateOnMap(homeMap);
+            if (gate == null)
+            {
+                return;
+            }
+
+            ensuredWorldGate = true;
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref ensuredWorldGate, "ensuredWorldGate", false);
-        }
-
-        private void EnsureWorldGate()
-        {
-            if (Find.World == null || Find.WorldGrid == null || Find.WorldObjects == null)
-            {
-                return;
-            }
-
-            WorldObjectDef def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("StarGateWorldSite");
-            if (def == null)
-            {
-                return;
-            }
-
-            if (Find.WorldObjects.AllWorldObjects.Any(obj => obj.def == def))
-            {
-                ensuredWorldGate = true;
-                return;
-            }
-
-            Settlement playerSettlement = Find.WorldObjects.Settlements.FirstOrDefault(settlement => settlement.Faction == Faction.OfPlayer);
-            if (playerSettlement == null)
-            {
-                return;
-            }
-
-            if (!TryFindTile(playerSettlement.Tile, out int tile))
-            {
-                return;
-            }
-
-            WorldObject gate = WorldObjectMaker.MakeWorldObject(def);
-            gate.Tile = tile;
-            Find.WorldObjects.Add(gate);
-            ensuredWorldGate = true;
-        }
-
-        private static bool TryFindTile(int playerTile, out int tile)
-        {
-            for (int i = 0; i < 2000; i++)
-            {
-                int candidate = Rand.Range(0, Find.WorldGrid.TilesCount);
-                if (Find.WorldGrid.ApproxDistanceInTiles(playerTile, candidate) < 35)
-                {
-                    continue;
-                }
-
-                Tile worldTile = Find.WorldGrid[candidate];
-                if (worldTile == null || worldTile.PrimaryBiome == null || worldTile.PrimaryBiome.impassable)
-                {
-                    continue;
-                }
-
-                if (worldTile.hilliness == Hilliness.Impassable)
-                {
-                    continue;
-                }
-
-                if (Find.WorldObjects.ObjectsAt(candidate).Any())
-                {
-                    continue;
-                }
-
-                tile = candidate;
-                return true;
-            }
-
-            tile = -1;
-            return false;
         }
     }
 }

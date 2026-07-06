@@ -9,6 +9,7 @@ namespace RimGateJaffaKree
     public static class StarGateDefOf
     {
         public static JobDef UseStarGateControlPanel;
+        public static JobDef EnterStarGate;
     }
 
     public class JobDriver_UseStarGateControlPanel : JobDriver

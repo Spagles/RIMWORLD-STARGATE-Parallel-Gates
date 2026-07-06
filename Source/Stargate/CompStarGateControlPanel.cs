@@ -91,6 +91,63 @@ namespace RimGateJaffaKree
                 Job job = JobMaker.MakeJob(StarGateDefOf.UseStarGateControlPanel, parent);
                 selPawn.jobs.TryTakeOrderedJob(job);
             });
+
+            yield return new FloatMenuOption("Otevrit StarGate adresar", delegate
+            {
+                Find.WindowStack.Add(new Dialog_StarGateAddressBook(this));
+            });
+        }
+
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+
+            yield return new Command_Action
+            {
+                defaultLabel = "Adresar",
+                defaultDesc = "Otevre posledni a domovske StarGate adresy.",
+                icon = BaseContent.WhiteTex,
+                action = delegate
+                {
+                    Find.WindowStack.Add(new Dialog_StarGateAddressBook(this));
+                }
+            };
+
+            yield return new Command_Action
+            {
+                defaultLabel = "Galaxy",
+                defaultDesc = "Otevre StarGate seznam domovske planety a objevenych planet.",
+                icon = BaseContent.WhiteTex,
+                action = delegate
+                {
+                    Find.WindowStack.Add(new Dialog_StarGateGalaxyMap(this));
+                }
+            };
+
+            yield return new Command_Action
+            {
+                defaultLabel = "StarGate DB",
+                defaultDesc = "Zobrazi ulozene StarGate planety, adresy a mapy.",
+                icon = BaseContent.WhiteTex,
+                action = delegate
+                {
+                    Find.WindowStack.Add(new Dialog_StarGateDebugDatabase());
+                }
+            };
+
+            yield return new Command_Action
+            {
+                defaultLabel = "Debug prichod",
+                defaultDesc = "Otevre debug volby pro raid, obchodniky a spojence pres StarGate.",
+                icon = BaseContent.WhiteTex,
+                action = delegate
+                {
+                    Find.WindowStack.Add(new Dialog_StarGateIncidentDebug(parent.Map));
+                }
+            };
         }
 
         public CompStarGate LinkedGate()
