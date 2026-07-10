@@ -8,9 +8,12 @@ namespace RimGateJaffaKree
 {
     public class StarGatePlanetSystem : GameComponent
     {
+        public const int CurrentDataVersion = 2;
+        public const int CurrentGenerationVersion = 1;
         private const int RecentAddressLimit = 5;
         private List<StarGatePlanetRecord> planets = new List<StarGatePlanetRecord>();
         private List<string> recentAddresses = new List<string>();
+        private int dataVersion = CurrentDataVersion;
         private string homeAddress;
         private int homeTile = -1;
         private int homeMapUniqueId = -1;
@@ -26,6 +29,7 @@ namespace RimGateJaffaKree
             base.ExposeData();
             Scribe_Collections.Look(ref planets, "stargatePlanets", LookMode.Deep);
             Scribe_Collections.Look(ref recentAddresses, "recentStarGateAddresses", LookMode.Value);
+            Scribe_Values.Look(ref dataVersion, "starGatePlanetDataVersion", CurrentDataVersion);
             Scribe_Values.Look(ref homeAddress, "homeAddress");
             Scribe_Values.Look(ref homeTile, "homeTile", -1);
             Scribe_Values.Look(ref homeMapUniqueId, "homeMapUniqueId", -1);
@@ -50,6 +54,7 @@ namespace RimGateJaffaKree
                 }
 
                 PurgeLegacyPrototypePlanet();
+                dataVersion = CurrentDataVersion;
                 recentAddresses = recentAddresses
                     .Where(address => IsValidAddress(address) && !IsHomeAddress(address))
                     .Distinct()
@@ -61,7 +66,49 @@ namespace RimGateJaffaKree
         public override void FinalizeInit()
         {
             base.FinalizeInit();
+            RepairInvalidPlanetLayers();
             EnsureInitialized();
+            ReconcileLoadedMaps();
+        }
+
+        private void RepairInvalidPlanetLayers()
+        {
+            if (Find.WorldGrid == null)
+            {
+                return;
+            }
+
+            List<StarGatePlanetLayer> invalidLayers = Find.WorldGrid.PlanetLayers.Values
+                .OfType<StarGatePlanetLayer>()
+                .Where(layer => layer == null || layer.TilesCount <= 0)
+                .ToList();
+            foreach (StarGatePlanetLayer layer in invalidLayers)
+            {
+                if (layer == null)
+                {
+                    continue;
+                }
+
+                foreach (StarGatePlanetRecord planet in planets.Where(candidate => candidate != null && candidate.planetLayerId == layer.LayerID))
+                {
+                    planet.planetLayerId = -1;
+                    planet.primaryLayerTileId = -1;
+                    foreach (StarGateSiteRecord site in planet.sites ?? new List<StarGateSiteRecord>())
+                    {
+                        if (site != null && site.planetLayerId == layer.LayerID)
+                        {
+                            site.planetLayerId = -1;
+                            site.planetTileId = -1;
+                            site.worldObjectId = -1;
+                            site.mapUniqueId = -1;
+                            site.tile = -1;
+                            site.mapState = "uncreated";
+                        }
+                    }
+                }
+
+                Find.WorldGrid.RemovePlanetLayer(layer);
+            }
         }
 
         public override void GameComponentTick()
@@ -216,7 +263,22 @@ namespace RimGateJaffaKree
                 return null;
             }
 
-            return planets.FirstOrDefault(planet => planet.HasMap(map.uniqueID));
+            StarGatePlanetRecord record = planets.FirstOrDefault(planet => planet.HasMap(map.uniqueID));
+            if (record != null)
+            {
+                return record;
+            }
+
+            StarGatePlanetMapParent parent = map.Parent as StarGatePlanetMapParent;
+            if (parent == null || !IsValidAddress(parent.address))
+            {
+                return null;
+            }
+
+            record = EnsurePlanetForAddress(parent.address);
+            StarGateSiteRecord site = SiteForId(record, parent.siteId) ?? record.PrimaryGateSite();
+            RegisterGeneratedMap(record, site, map, parent);
+            return record;
         }
 
         public StarGateSiteRecord SiteForMap(Map map)
@@ -224,6 +286,17 @@ namespace RimGateJaffaKree
             if (map == null)
             {
                 return null;
+            }
+
+            StarGatePlanetMapParent pocketParent = map.Parent as StarGatePlanetMapParent;
+            if (pocketParent != null)
+            {
+                StarGatePlanetRecord pocketPlanet = PlanetForMap(map);
+                StarGateSiteRecord pocketSite = SiteForId(pocketPlanet, pocketParent.siteId);
+                if (pocketSite != null)
+                {
+                    return pocketSite;
+                }
             }
 
             foreach (StarGatePlanetRecord planet in planets)
@@ -277,15 +350,51 @@ namespace RimGateJaffaKree
             }
 
             site.mapUniqueId = map.uniqueID;
+            site.mapState = "generated";
+            site.generationVersion = CurrentGenerationVersion;
             if (parent != null)
             {
                 site.worldObjectId = parent.ID;
                 site.tile = parent.Tile;
+                if (parent.Tile.Layer is StarGatePlanetLayer layer)
+                {
+                    site.planetLayerId = layer.LayerID;
+                    site.planetTileId = parent.Tile.tileId;
+                    planet.planetLayerId = layer.LayerID;
+                    if (site.siteType == "primary_gate")
+                    {
+                        planet.primaryLayerTileId = parent.Tile.tileId;
+                    }
+                }
             }
 
-            planet.mapUniqueId = map.uniqueID;
-            planet.tile = site.tile;
-            planet.worldObjectId = site.worldObjectId;
+            if (site.siteType == "primary_gate" || planet.mapUniqueId < 0)
+            {
+                planet.mapUniqueId = map.uniqueID;
+                planet.tile = site.tile;
+                planet.worldObjectId = site.worldObjectId;
+            }
+        }
+
+        public void ReconcileLoadedMaps()
+        {
+            if (Current.Game?.Maps == null)
+            {
+                return;
+            }
+
+            foreach (Map map in Current.Game.Maps.Where(candidate => candidate != null))
+            {
+                StarGatePlanetMapParent parent = map.Parent as StarGatePlanetMapParent;
+                if (parent == null || !IsValidAddress(parent.address))
+                {
+                    continue;
+                }
+
+                StarGatePlanetRecord planet = EnsurePlanetForAddress(parent.address);
+                StarGateSiteRecord site = SiteForId(planet, parent.siteId) ?? planet.PrimaryGateSite();
+                RegisterGeneratedMap(planet, site, map, parent);
+            }
         }
 
         public void MarkPlanetDiscovered(StarGatePlanetRecord planet)
@@ -463,6 +572,8 @@ namespace RimGateJaffaKree
 
     public class StarGatePlanetRecord : IExposable
     {
+        public int dataVersion = StarGatePlanetSystem.CurrentDataVersion;
+        public int generationVersion = StarGatePlanetSystem.CurrentGenerationVersion;
         public string id;
         public string displayName;
         public string address;
@@ -471,6 +582,8 @@ namespace RimGateJaffaKree
         public int tile = -1;
         public int worldObjectId = -1;
         public int mapUniqueId = -1;
+        public int planetLayerId = -1;
+        public int primaryLayerTileId = -1;
         public float planetCoverage;
         public OverallRainfall rainfall;
         public OverallTemperature temperature;
@@ -494,6 +607,8 @@ namespace RimGateJaffaKree
 
         public void ExposeData()
         {
+            Scribe_Values.Look(ref dataVersion, "dataVersion", StarGatePlanetSystem.CurrentDataVersion);
+            Scribe_Values.Look(ref generationVersion, "generationVersion", StarGatePlanetSystem.CurrentGenerationVersion);
             Scribe_Values.Look(ref id, "id");
             Scribe_Values.Look(ref displayName, "displayName");
             Scribe_Values.Look(ref address, "address");
@@ -502,6 +617,8 @@ namespace RimGateJaffaKree
             Scribe_Values.Look(ref tile, "tile", -1);
             Scribe_Values.Look(ref worldObjectId, "worldObjectId", -1);
             Scribe_Values.Look(ref mapUniqueId, "mapUniqueId", -1);
+            Scribe_Values.Look(ref planetLayerId, "planetLayerId", -1);
+            Scribe_Values.Look(ref primaryLayerTileId, "primaryLayerTileId", -1);
             Scribe_Values.Look(ref planetCoverage, "planetCoverage", 0.3f);
             Scribe_Values.Look(ref rainfall, "rainfall", OverallRainfall.Normal);
             Scribe_Values.Look(ref temperature, "temperature", OverallTemperature.Normal);
@@ -541,6 +658,11 @@ namespace RimGateJaffaKree
 
             EnsureProfile();
 
+            foreach (StarGateSiteRecord site in sites.Where(candidate => candidate != null))
+            {
+                site.PostLoadNormalize(this);
+            }
+
             if (sites.Count == 0 && mapUniqueId >= 0)
             {
                 StarGateSiteRecord site = CreatePrimaryGateSite();
@@ -551,6 +673,7 @@ namespace RimGateJaffaKree
             }
 
             EnsureGenerated();
+            dataVersion = StarGatePlanetSystem.CurrentDataVersion;
         }
 
         public void EnsureGenerated()
@@ -575,6 +698,11 @@ namespace RimGateJaffaKree
             if (sites.Count == 0)
             {
                 GenerateSites();
+            }
+
+            foreach (StarGateSiteRecord site in sites.Where(candidate => candidate != null))
+            {
+                site.PostLoadNormalize(this);
             }
 
             generated = true;
@@ -618,10 +746,13 @@ namespace RimGateJaffaKree
                     {
                         id = id + "_settlement_" + i,
                         displayName = displayName + " settlement " + (i + 1),
-                        siteType = i % 3 == 0 ? "ruin" : "settlement",
+                        siteType = IsJaffaControlled && i % 3 == 0 ? "jaffa_outpost" : (i % 3 == 0 ? "ruin" : "settlement"),
                         seed = generationSeed + 101 + i * 37,
-                        factionTag = i % 2 == 0 ? "local" : "hostile",
+                        factionTag = IsJaffaControlled ? (i % 3 == 0 ? "jaffa" : "native") : (i % 2 == 0 ? "local" : "hostile"),
+                        contentKind = IsJaffaControlled ? (i % 3 == 0 ? "outpost" : "settlement") : (i % 3 == 0 ? "ancient_ruins" : (i % 2 == 0 ? "settlement" : "outpost")),
                         mapSize = 150,
+                        mapState = "uncreated",
+                        generationVersion = StarGatePlanetSystem.CurrentGenerationVersion,
                         threatLevel = System.Math.Min(10, threatLevel + Rand.RangeInclusive(0, 3)),
                         known = false
                     });
@@ -643,10 +774,13 @@ namespace RimGateJaffaKree
                 address = address,
                 seed = generationSeed == 0 ? StarGatePlanetSystem.StableSeed(address ?? id) : generationSeed,
                 factionTag = "ancient",
+                contentKind = PrimaryContentKind(),
                 tile = tile,
                 worldObjectId = worldObjectId,
                 mapUniqueId = mapUniqueId,
                 mapSize = 150,
+                mapState = mapUniqueId >= 0 ? "generated" : "uncreated",
+                generationVersion = StarGatePlanetSystem.CurrentGenerationVersion,
                 known = true,
                 threatLevel = threatLevel
             };
@@ -680,6 +814,26 @@ namespace RimGateJaffaKree
                 resourceRichness = profile.resourceRichness;
             }
         }
+
+        private string PrimaryContentKind()
+        {
+            switch (civilizationLevel)
+            {
+                case "Scattered tribes":
+                case "Hidden settlements":
+                    return "settlement";
+                case "Hostile outposts":
+                case "Jaffa-controlled world":
+                    return "outpost";
+                case "Ruins":
+                case "Ancient network":
+                    return "ancient_ruins";
+                default:
+                    return "wilderness";
+            }
+        }
+
+        public bool IsJaffaControlled => civilizationLevel == "Jaffa-controlled world";
     }
 
     public class StarGateSiteRecord : IExposable
@@ -690,9 +844,16 @@ namespace RimGateJaffaKree
         public string address;
         public int seed;
         public string factionTag;
+        public string contentKind;
+        public string factionDefName;
+        public int factionLoadId = -1;
+        public string mapState = "uncreated";
+        public int generationVersion = StarGatePlanetSystem.CurrentGenerationVersion;
         public int tile = -1;
         public int worldObjectId = -1;
         public int mapUniqueId = -1;
+        public int planetLayerId = -1;
+        public int planetTileId = -1;
         public int mapSize = 150;
         public bool contentGenerated;
         public bool visited;
@@ -709,9 +870,16 @@ namespace RimGateJaffaKree
             Scribe_Values.Look(ref address, "address");
             Scribe_Values.Look(ref seed, "seed", 0);
             Scribe_Values.Look(ref factionTag, "factionTag");
+            Scribe_Values.Look(ref contentKind, "contentKind");
+            Scribe_Values.Look(ref factionDefName, "factionDefName");
+            Scribe_Values.Look(ref factionLoadId, "factionLoadId", -1);
+            Scribe_Values.Look(ref mapState, "mapState", "uncreated");
+            Scribe_Values.Look(ref generationVersion, "generationVersion", StarGatePlanetSystem.CurrentGenerationVersion);
             Scribe_Values.Look(ref tile, "tile", -1);
             Scribe_Values.Look(ref worldObjectId, "worldObjectId", -1);
             Scribe_Values.Look(ref mapUniqueId, "mapUniqueId", -1);
+            Scribe_Values.Look(ref planetLayerId, "planetLayerId", -1);
+            Scribe_Values.Look(ref planetTileId, "planetTileId", -1);
             Scribe_Values.Look(ref mapSize, "mapSize", 150);
             Scribe_Values.Look(ref contentGenerated, "contentGenerated", false);
             Scribe_Values.Look(ref visited, "visited", false);
@@ -719,6 +887,51 @@ namespace RimGateJaffaKree
             Scribe_Values.Look(ref threatLevel, "threatLevel", 0);
             Scribe_Values.Look(ref visitCount, "visitCount", 0);
             Scribe_Values.Look(ref lastVisitTick, "lastVisitTick", -1);
+        }
+
+        public void PostLoadNormalize(StarGatePlanetRecord planet)
+        {
+            if (mapSize <= 0)
+            {
+                mapSize = StarGatePlanetMapFactory.MapSize;
+            }
+
+            if (contentKind.NullOrEmpty())
+            {
+                if (siteType == "ruin")
+                {
+                    contentKind = "ancient_ruins";
+                }
+                else if (siteType == "settlement")
+                {
+                    contentKind = factionTag == "hostile" ? "outpost" : "settlement";
+                }
+                else
+                {
+                    switch (planet?.civilizationLevel)
+                    {
+                        case "Scattered tribes":
+                        case "Hidden settlements":
+                            contentKind = "settlement";
+                            break;
+                        case "Hostile outposts":
+                            contentKind = "outpost";
+                            break;
+                        case "Ruins":
+                        case "Ancient network":
+                            contentKind = "ancient_ruins";
+                            break;
+                        default:
+                            contentKind = "wilderness";
+                            break;
+                    }
+                }
+            }
+
+            mapState = mapUniqueId >= 0 ? "generated" : "uncreated";
+            generationVersion = generationVersion <= 0
+                ? StarGatePlanetSystem.CurrentGenerationVersion
+                : generationVersion;
         }
     }
 
@@ -732,7 +945,11 @@ namespace RimGateJaffaKree
         public static StarGatePlanetProfile ForSeed(int seed)
         {
             string[] atmospheres = { "Breathable", "Thin", "Humid", "Dust-heavy", "Irradiated", "Toxic traces" };
-            string[] civilizations = { "Uninhabited", "Ruins", "Scattered tribes", "Hidden settlements", "Hostile outposts", "Ancient network" };
+            string[] civilizations =
+            {
+                "Jaffa-controlled world", "Jaffa-controlled world", "Jaffa-controlled world", "Jaffa-controlled world",
+                "Uninhabited", "Ruins", "Scattered tribes", "Hidden settlements", "Hostile outposts", "Ancient network"
+            };
 
             Rand.PushState(seed ^ 0x51A7);
             try

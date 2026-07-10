@@ -26,6 +26,7 @@ namespace RimGateJaffaKree
         }
     }
 
+    [StaticConstructorOnStartup]
     public class CompStarGate : ThingComp
     {
         private int warmupTicksLeft;

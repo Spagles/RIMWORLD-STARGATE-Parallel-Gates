@@ -27,13 +27,69 @@ From the current Parallel Gates implementation:
 - Address Book
 - Galaxy browser
 - Generated offworld destination maps
+- A full independent RimWorld globe for every seven-symbol address
+- Independent terrain, rivers, roads, factions, settlements, sites, and world-map exploration per address
 - Stable saved addresses and generated destinations
+- Persistent 150x150 planet maps that preserve terrain, buildings, items, and inhabitants
+- Deterministic planet biomes and civilization profiles
+- Jaffa, vanilla, and compatible mod-faction settlements and outposts
+- Scannable secondary sites with separate persistent maps
 - Return travel to the home world
 - Incoming Stargate events:
   - raids
   - traders
   - ally / visitor arrivals
 - DevTools support for Stargate testing
+
+## Release v0.1.0
+
+### Added
+
+- Full independent RimWorld planet layers for new Stargate addresses
+- Standard world generation with terrain, biomes, roads, factions, settlements, and sites
+- Persistent gateway map objects located on each planet's own world map
+- Caravan travel and exploration across foreign planets
+- Hidden undiscovered locations revealed through exploration
+- A 40% deterministic chance for a Jaffa-controlled world with native settlements and Jaffa military outposts
+- Odyssey is required for the full planet-layer experience
+
+Existing v0.0.3 and v0.0.4 pocket maps remain supported as legacy save content.
+
+## Requirements
+
+- RimWorld 1.6
+- Odyssey DLC
+- Harmony
+- Humanoid Alien Races
+
+Odyssey is a hard requirement for independent planet layers and world-map travel.
+
+## Installation
+
+1. Install the required dependencies and the Odyssey DLC.
+2. Place this repository in the RimWorld `Mods` folder.
+3. Enable Harmony, Odyssey, Humanoid Alien Races, and this mod.
+4. Restart RimWorld after installing or updating the mod.
+
+For the full planet system, dial a new address. Existing legacy pocket maps remain loadable but are not automatically converted.
+
+## Release v0.0.4
+
+### Added
+
+- Persistent pocket planets saved directly in the RimWorld save
+- Address and site metadata stored on every generated planet map
+- Temperate, forest, desert, ice, toxic, and ancient-ruins planet generators
+- Real settlements and outposts populated by eligible active factions
+- Deterministic site content and legacy v0.0.3 map compatibility
+- Atomic group transfer with rollback if the destination cannot accept everyone
+
+### Changed
+
+- New planets no longer consume random tiles on the home world's globe
+- The same address now always reopens the exact saved map
+- Galaxy scan sites now generate as their own persistent off-world locations
+- Static gate materials are initialized safely on the main thread
 
 ## Release v0.0.3
 

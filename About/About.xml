@@ -25,10 +25,15 @@
       <steamWorkshopUrl>steam://url/CommunityFilePage/839005762</steamWorkshopUrl>
       <downloadUrl>https://github.com/erdelf/AlienRaces/releases/latest</downloadUrl>
     </li>
+    <li>
+      <packageId>Ludeon.RimWorld.Odyssey</packageId>
+      <displayName>Odyssey</displayName>
+    </li>
   </modDependencies>
   <loadAfter>
     <li>brrainz.harmony</li>
     <li>erdelf.HumanoidAlienRaces</li>
+    <li>Ludeon.RimWorld.Odyssey</li>
   </loadAfter>
   <description>RIMWORLD-STARGATE: Parallel Gates is a RimWorld 1.6 Stargate-inspired prototype built from the RimGate Jaffa/Kree mod base.
 
@@ -39,15 +44,19 @@ Current MVP features:
 - StarGate warmup, animated online/offline visual state, and panel-driven activation.
 - Pawn and group travel from a home gate to a generated remote StarGate map and back.
 - Manual three-ring StarGate address dialing UI with saved address records.
+- Persistent 150x150 off-world planet maps that preserve player changes across save/load.
+- Deterministic planet biomes, ruins, settlements, outposts, and active-faction inhabitants.
+- Scannable secondary planet sites with their own persistent maps.
 - Harmony foundation for future multi-world/planet travel mechanics.
 
 Requirements:
 - Harmony
 - Humanoid Alien Races
+- Odyssey (required for a full independent RimWorld globe per Stargate address)
 
 Credits:
 Based on RimGate Jaffa/Kree by Helixien, Xen, Mlie and contributors, with original texture credits to Carnov and Humanoid Alien Races work by CPT.OHU/Erdelf and contributors.
 
 This is an unofficial fan mod and is not affiliated with or endorsed by MGM, Amazon, Ludeon Studios, or the original mod authors.</description>
-  <modVersion IgnoreIfNoMatchingField="True">0.0.3</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">0.1.0</modVersion>
 </ModMetaData>

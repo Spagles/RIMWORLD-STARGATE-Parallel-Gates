@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -310,13 +309,19 @@ namespace RimGateJaffaKree
                 Map existing = Current.Game.Maps.FirstOrDefault(existingMap => existingMap != null && existingMap.uniqueID == site.mapUniqueId);
                 if (existing != null)
                 {
-                    if (existing == sourceMap)
+                    if (!StarGatePlanetMapFactory.ParentMatches(existing, record, site))
+                    {
+                        ClearStaleSiteMap(site);
+                        Log.Warning("StarGate rejected a saved map binding that belonged to another address or site.");
+                    }
+                    else if (existing == sourceMap)
                     {
                         ClearStaleSiteMap(site);
                         Messages.Message("StarGate cil ukazoval na aktualni mapu. Vytvarim novou planetarni mapu.", MessageTypeDefOf.NeutralEvent, false);
                     }
                     else
                     {
+                    StarGatePlanetWorldUtility.SelectLayerFor(existing);
                     Messages.Message("StarGate obnovuje spojeni se znamou planetou: " + record.displayName, MessageTypeDefOf.PositiveEvent, false);
                     return existing;
                     }
@@ -333,6 +338,7 @@ namespace RimGateJaffaKree
                 }
                 else
                 {
+                StarGatePlanetWorldUtility.SelectLayerFor(existingWorldObjectMap);
                 planetSystem?.RegisterGeneratedMap(record, site, existingWorldObjectMap, existingWorldObjectMap.Parent);
                 Messages.Message("StarGate znovu otevira ulozenou planetu: " + record.displayName, MessageTypeDefOf.PositiveEvent, false);
                 return existingWorldObjectMap;
@@ -351,6 +357,7 @@ namespace RimGateJaffaKree
                     }
                     else
                     {
+                    StarGatePlanetWorldUtility.SelectLayerFor(map);
                     planetSystem?.RegisterGeneratedMap(record, site, map, map.Parent);
                     Messages.Message("StarGate vytvorila novou planetarni lokaci: " + record.displayName + " / " + site.displayName + " (map " + map.uniqueID + ")", MessageTypeDefOf.PositiveEvent, false);
                     return map;
@@ -376,6 +383,8 @@ namespace RimGateJaffaKree
             site.mapUniqueId = -1;
             site.worldObjectId = -1;
             site.tile = -1;
+            site.mapState = "uncreated";
+            site.contentGenerated = false;
         }
 
         private static Map ExistingSiteMap(StarGatePlanetRecord record, StarGateSiteRecord site)
@@ -385,8 +394,13 @@ namespace RimGateJaffaKree
                 return null;
             }
 
-            MapParent parent = Find.WorldObjects.AllWorldObjects
+            MapParent parent = StarGatePlanetMapFactory.ParentForId(site.worldObjectId);
+            if (parent == null)
+            {
+                parent = Find.WorldObjects.AllWorldObjects
                 .FirstOrDefault(worldObject => worldObject != null && worldObject.ID == site.worldObjectId) as MapParent;
+            }
+
             if (parent == null)
             {
                 return null;
@@ -394,7 +408,13 @@ namespace RimGateJaffaKree
 
             if (parent.HasMap)
             {
-                return parent.Map;
+                return StarGatePlanetMapFactory.ParentMatches(parent.Map, record, site) ? parent.Map : null;
+            }
+
+            if (parent is StarGatePlanetMapParent)
+            {
+                Find.World.pocketMaps.Remove((StarGatePlanetMapParent)parent);
+                return null;
             }
 
             IntVec3 mapSize = new IntVec3(site.mapSize > 0 ? site.mapSize : DestinationMapSize.x, 1, site.mapSize > 0 ? site.mapSize : DestinationMapSize.z);
@@ -411,188 +431,29 @@ namespace RimGateJaffaKree
 
         private static Map GenerateDetachedPlanetMap(StarGatePlanetRecord record, StarGateSiteRecord site, Map sourceMap)
         {
-            WorldObjectDef def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("StarGatePocketPlanet");
-            MapGeneratorDef generator = MapGeneratorDefOf.Base_Player;
-            if (def == null || generator == null || site == null)
-            {
-                return null;
-            }
-
-            int tile = site.tile;
-            if (tile < 0)
-            {
-                Rand.PushState(site.seed == 0 ? record.generationSeed : site.seed);
-                try
-                {
-                    if (!TryFindPlanetTile(sourceMap, record, out tile))
-                    {
-                        return null;
-                    }
-                }
-                finally
-                {
-                    Rand.PopState();
-                }
-            }
-
-            MapParent parent = (MapParent)WorldObjectMaker.MakeWorldObject(def);
-            parent.Tile = tile;
-            Find.WorldObjects.Add(parent);
-            site.tile = tile;
-            site.worldObjectId = parent.ID;
-
-            IntVec3 mapSize = new IntVec3(site.mapSize > 0 ? site.mapSize : DestinationMapSize.x, 1, site.mapSize > 0 ? site.mapSize : DestinationMapSize.z);
-            Rand.PushState(site.seed == 0 ? record.generationSeed : site.seed);
-            try
-            {
-                return MapGenerator.GenerateMap(mapSize, parent, generator, null, null, false, false);
-            }
-            finally
-            {
-                Rand.PopState();
-            }
-        }
-
-        private static Map EnsureFallbackWorldSiteMap(StarGatePlanetRecord record, StarGateSiteRecord site, Map sourceMap)
-        {
-            WorldObjectDef def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("StarGateWorldSite");
-            Settlement playerSettlement = Find.WorldObjects.Settlements.FirstOrDefault(settlement => settlement.Faction == Faction.OfPlayer);
-            if (def == null || playerSettlement == null || !TryFindFallbackTile(playerSettlement.Tile, record, out int tile))
-            {
-                return null;
-            }
-
-            MapParent parent = (MapParent)WorldObjectMaker.MakeWorldObject(def);
-            parent.Tile = tile;
-            Find.WorldObjects.Add(parent);
             if (site == null)
             {
-                site = record.PrimaryGateSite();
+                return null;
             }
 
-            site.tile = tile;
-            site.worldObjectId = parent.ID;
-            Map map = GetOrGenerateMapUtility.GetOrGenerateMap(parent.Tile, DestinationMapSize, parent.def);
-            if (map != null)
-            {
-                if (map == sourceMap)
-                {
-                    ClearStaleSiteMap(site);
-                    Messages.Message("StarGate fallback vratil aktualni mapu. Spojeni bylo odmitnuto.", MessageTypeDefOf.RejectInput, false);
-                    return null;
-                }
-
-                Current.Game.GetComponent<StarGatePlanetSystem>()?.RegisterGeneratedMap(record, site, map, parent);
-            }
-
-            return map;
-        }
-
-        private static bool TryFindPlanetTile(Map sourceMap, StarGatePlanetRecord record, out int tile)
-        {
-            int originTile = -1;
-            if (sourceMap != null && sourceMap.Tile >= 0)
-            {
-                originTile = sourceMap.Tile;
-            }
-
-            if (originTile < 0)
-            {
-                Settlement playerSettlement = Find.WorldObjects.Settlements.FirstOrDefault(settlement => settlement.Faction == Faction.OfPlayer);
-                if (playerSettlement != null)
-                {
-                    originTile = playerSettlement.Tile;
-                }
-            }
-
-            if (originTile >= 0 && TryFindFallbackTile(originTile, record, out tile))
-            {
-                return true;
-            }
-
-            for (int i = 0; i < 2000; i++)
-            {
-                int candidate = Rand.Range(0, Find.WorldGrid.TilesCount);
-                Tile worldTile = Find.WorldGrid[candidate];
-                if (worldTile == null || worldTile.PrimaryBiome == null || worldTile.PrimaryBiome.impassable)
-                {
-                    continue;
-                }
-
-                if (worldTile.hilliness == Hilliness.Impassable || !TileMatchesPlanetType(worldTile, record))
-                {
-                    continue;
-                }
-
-                tile = candidate;
-                return true;
-            }
-
-            tile = -1;
-            return false;
-        }
-
-        private static bool TryFindFallbackTile(int playerTile, out int tile)
-        {
-            return TryFindFallbackTile(playerTile, null, out tile);
-        }
-
-        private static bool TryFindFallbackTile(int playerTile, StarGatePlanetRecord record, out int tile)
-        {
-            for (int i = 0; i < 2000; i++)
-            {
-                int candidate = Rand.Range(0, Find.WorldGrid.TilesCount);
-                if (Find.WorldGrid.ApproxDistanceInTiles(playerTile, candidate) < 35)
-                {
-                    continue;
-                }
-
-                Tile worldTile = Find.WorldGrid[candidate];
-                if (worldTile == null || worldTile.PrimaryBiome == null || worldTile.PrimaryBiome.impassable)
-                {
-                    continue;
-                }
-
-                if (worldTile.hilliness == Hilliness.Impassable || Find.WorldObjects.ObjectsAt(candidate).Any() || !TileMatchesPlanetType(worldTile, record))
-                {
-                    continue;
-                }
-
-                tile = candidate;
-                return true;
-            }
-
-            tile = -1;
-            return record != null && TryFindFallbackTile(playerTile, null, out tile);
-        }
-
-        private static bool TileMatchesPlanetType(Tile tile, StarGatePlanetRecord record)
-        {
-            if (tile == null || record == null || record.planetType.NullOrEmpty())
-            {
-                return true;
-            }
-
-            string biome = tile.PrimaryBiome?.defName?.ToLowerInvariant() ?? string.Empty;
-            switch (record.planetType)
-            {
-                case "desert":
-                    return biome.Contains("desert") || biome.Contains("arid") || biome.Contains("dune");
-                case "ice":
-                    return biome.Contains("ice") || biome.Contains("tundra") || biome.Contains("seaice");
-                case "toxic":
-                    return biome.Contains("pollution") || biome.Contains("waste") || biome.Contains("toxic") || biome.Contains("swamp");
-                case "forest":
-                    return biome.Contains("forest") || biome.Contains("temperate") || biome.Contains("boreal");
-                case "ancient_ruins":
-                    return !biome.Contains("ocean") && !biome.Contains("seaice");
-                default:
-                    return true;
-            }
+            StarGatePlanetWorldUtility.EnsureLayer(record);
+            return StarGatePlanetWorldUtility.GenerateLandingMap(record, site, sourceMap);
         }
 
         private static bool TryFindGateCell(Map map, ThingDef gateDef, out IntVec3 cell)
         {
+            foreach (IntVec3 candidate in GenRadial.RadialCellsAround(map.Center, 18f, true).OrderBy(position => position.DistanceTo(map.Center)))
+            {
+                if (candidate.InBounds(map)
+                    && candidate.Standable(map)
+                    && GenAdj.OccupiedRect(candidate, Rot4.North, gateDef.size).InBounds(map)
+                    && GenConstruct.CanPlaceBlueprintAt(gateDef, candidate, Rot4.North, map).Accepted)
+                {
+                    cell = candidate;
+                    return true;
+                }
+            }
+
             for (int i = 0; i < 2000; i++)
             {
                 IntVec3 candidate = CellFinder.RandomCell(map);
@@ -621,27 +482,103 @@ namespace RimGateJaffaKree
 
         private static int MovePawns(List<Pawn> pawns, CompStarGate destinationGate)
         {
-            int movedCount = 0;
-            foreach (Pawn pawn in pawns.Where(pawn => pawn != null && pawn.Spawned).ToList())
+            List<Pawn> travelers = pawns
+                .Where(pawn => pawn != null && pawn.Spawned && pawn.Faction == Faction.OfPlayer)
+                .Distinct()
+                .ToList();
+            if (travelers.Count == 0 || destinationGate?.parent?.Map == null)
             {
-                IntVec3 targetCell = CellFinder.StandableCellNear(destinationGate.parent.Position, destinationGate.parent.Map, 6f);
-                if (!targetCell.IsValid)
+                return 0;
+            }
+
+            List<IntVec3> targetCells = ArrivalCells(destinationGate, travelers.Count);
+            if (targetCells.Count < travelers.Count)
+            {
+                return 0;
+            }
+
+            List<PawnTravelOrigin> origins = travelers
+                .Select(pawn => new PawnTravelOrigin(pawn, pawn.Map, pawn.Position))
+                .ToList();
+
+            try
+            {
+                for (int i = 0; i < travelers.Count; i++)
+                {
+                    Pawn pawn = travelers[i];
+                    pawn.DeSpawn(DestroyMode.Vanish);
+                    GenSpawn.Spawn(pawn, targetCells[i], destinationGate.parent.Map);
+                    pawn.Notify_Teleported(false, true);
+                }
+
+                CameraJumper.TryJump(destinationGate.parent);
+                return travelers.Count;
+            }
+            catch (System.Exception exception)
+            {
+                Log.Error("StarGate pawn transfer failed and will be rolled back: " + exception);
+                RollBackPawns(origins);
+                return 0;
+            }
+        }
+
+        private static List<IntVec3> ArrivalCells(CompStarGate destinationGate, int count)
+        {
+            Map map = destinationGate.parent.Map;
+            List<IntVec3> cells = GenRadial.RadialCellsAround(destinationGate.parent.Position, 9f, true)
+                .Where(cell => cell.InBounds(map)
+                    && cell.Standable(map)
+                    && !cell.Fogged(map)
+                    && cell.GetFirstPawn(map) == null)
+                .OrderBy(cell => cell.DistanceTo(destinationGate.parent.Position))
+                .Take(count)
+                .ToList();
+            return cells;
+        }
+
+        private static void RollBackPawns(List<PawnTravelOrigin> origins)
+        {
+            foreach (PawnTravelOrigin origin in origins)
+            {
+                Pawn pawn = origin.pawn;
+                if (pawn == null || origin.map == null)
                 {
                     continue;
                 }
 
-                pawn.DeSpawn(DestroyMode.Vanish);
-                GenSpawn.Spawn(pawn, targetCell, destinationGate.parent.Map);
-                pawn.Notify_Teleported(false, true);
-                movedCount++;
-            }
+                if (pawn.Spawned && pawn.Map == origin.map)
+                {
+                    continue;
+                }
 
-            if (movedCount > 0)
+                if (pawn.Spawned)
+                {
+                    pawn.DeSpawn(DestroyMode.Vanish);
+                }
+
+                IntVec3 cell = origin.position.InBounds(origin.map) && origin.position.Standable(origin.map)
+                    ? origin.position
+                    : CellFinder.StandableCellNear(origin.position, origin.map, 6f);
+                if (cell.IsValid)
+                {
+                    GenSpawn.Spawn(pawn, cell, origin.map);
+                    pawn.Notify_Teleported(false, true);
+                }
+            }
+        }
+
+        private sealed class PawnTravelOrigin
+        {
+            public readonly Pawn pawn;
+            public readonly Map map;
+            public readonly IntVec3 position;
+
+            public PawnTravelOrigin(Pawn pawn, Map map, IntVec3 position)
             {
-                CameraJumper.TryJump(destinationGate.parent);
+                this.pawn = pawn;
+                this.map = map;
+                this.position = position;
             }
-
-            return movedCount;
         }
     }
 }

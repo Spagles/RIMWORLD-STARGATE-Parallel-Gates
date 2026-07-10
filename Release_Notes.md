@@ -7,6 +7,114 @@ Secondary language: Czech
 
 ---
 
+## Version 0.1.0
+
+### ENG
+
+**Persistent Planetary System Release**
+
+Added:
+- Every new seven-symbol Stargate address can create its own persistent RimWorld planet layer.
+- Each planet has its own world map with terrain, biomes, roads, factions, settlements, and discoverable sites.
+- A persistent gateway location is created on the foreign planet's world map.
+- Pawns can form caravans and explore the foreign planet.
+- Undiscovered settlements and locations remain hidden until exploration or scanning reveals them.
+- Planet generation is deterministic: the same address produces the same initial layout.
+- Forty percent of new planet profiles are deterministically selected as Jaffa-controlled worlds.
+- Jaffa-controlled worlds contain native low-tech settlements and Jaffa military outposts using one consistent Jaffa faction.
+- Existing legacy pocket maps remain supported.
+
+Requirements:
+- RimWorld 1.6
+- Odyssey DLC
+- Harmony
+- Humanoid Alien Races
+
+Important:
+- Odyssey is required for the independent-globe system.
+- Restart RimWorld after installing or updating the mod.
+- Dial a new address to generate a new full planet. Legacy pocket maps are not automatically converted.
+
+### CZ
+
+**Persistent Planetary System Release**
+
+Verze 0.1.0 přidává vlastní trvalou planetu pro nové adresy, mapu světa, cestování karavanou, skryté lokality a 40% šanci na planetu pod nadvládou Jaffů.
+
+Požadavky: RimWorld 1.6, DLC Odyssey, Harmony a Humanoid Alien Races.
+
+---
+
+## Version 0.0.5
+
+### ENG
+
+**Full Planet Globes Release**
+
+Added:
+- Every new seven-symbol Stargate address creates its own persistent RimWorld globe
+- Standard world generation with terrain, rivers, roads, factions, settlements, and discoverable sites
+- A normal world-map gateway location on each generated planet
+- Deterministic planet generation from the address seed
+
+Requirements:
+- RimWorld 1.6
+- Odyssey
+- Harmony
+- Humanoid Alien Races
+
+Legacy pocket maps from versions 0.0.3 and 0.0.4 remain loadable.
+
+### CZ
+
+**Vydani plnych planetarnich globu**
+
+Pridano:
+- Kazda nova sedmisymbolova adresa vytvori vlastni trvaly RimWorld globus
+- Bezna generace terenu, rek, cest, frakci, osad a odhalitelnych lokalit
+- Normalni lokace brany na mape sveta kazde planety
+- Deterministicka generace podle seedu adresy
+
+Pro tuto funkci je povinny DLC Odyssey. Stare pocket mapy verzi 0.0.3 a 0.0.4 zustavaji nacitatelne.
+
+---
+
+## Version 0.0.4
+
+### ENG
+
+**Persistent Planets Release**
+
+Added:
+- Persistent 150x150 pocket planets stored directly in the savegame
+- Deterministic temperate, forest, desert, ice, toxic, and ancient-ruins destinations
+- Real settlements and outposts populated by eligible Stargate, vanilla, and mod factions
+- Persistent secondary sites discovered through the Galaxy scanner
+- Atomic group travel with rollback on transfer failure
+- Compatibility handling for existing v0.0.3 destination maps
+
+Changed:
+- Off-world destinations no longer occupy random tiles on the home planet
+- Returning to the same address restores the exact saved map state
+
+### CZ
+
+**Vydani Trvale planety**
+
+Pridano:
+- Trvale planetarni mapy 150x150 ukladane primo do savegame
+- Deterministicke mirne, lesni, poustni, ledove, toxicke a ruinove destinace
+- Skutecne osady a zakladny obyvane vhodnymi Stargate, vanilla a modovanymi frakcemi
+- Trvale vedlejsi lokality odhalovane Galaxy skenerem
+- Atomicky presun skupiny s navratem pri chybe
+- Kompatibilita s existujicimi cilovymi mapami verze v0.0.3
+
+Zmeneno:
+- Cizi planety uz nezabiraji nahodne tily domovskeho sveta
+- Navrat na stejnou adresu obnovi presny ulozeny stav mapy
+
+---
+
 ## Version 0.0.3
 
 ### ENG

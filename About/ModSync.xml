@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModSyncNinjaData>
   <ID>54555a28-9693-4f3f-b459-a4905f396590</ID>
-  <ModName>RimGate - Jaffa, Kree! (Continued)</ModName>
-  <Version>1.4.5</Version>
+  <ModName>RIMWORLD-STARGATE: Parallel Gates</ModName>
+  <Version>0.1.0</Version>
   <SaveBreaking>False</SaveBreaking>
   <Host name="Github">
-    <Owner>emipa606</Owner>
-    <Project>RimGateJaffaKree</Project>
+    <Owner>panzmoravylab</Owner>
+    <Project>RIMWORLD-STARGATE-Parallel-Gates</Project>
     <AboutDir>About</AboutDir>
     <DownloadFrom>ModSyncMainPage</DownloadFrom>
-    <Branch>master</Branch>
+    <Branch>main</Branch>
   </Host>
 </ModSyncNinjaData>

@@ -9,49 +9,82 @@ namespace RimGateJaffaKree
 
         public override void Generate(Map map, GenStepParams parms)
         {
-            TerrainDef soil = TerrainDefOf.Soil;
-            TerrainDef richSoil = DefDatabase<TerrainDef>.GetNamedSilentFail("SoilRich") ?? soil;
-            TerrainDef gravel = DefDatabase<TerrainDef>.GetNamedSilentFail("Gravel") ?? soil;
-            TerrainDef sand = DefDatabase<TerrainDef>.GetNamedSilentFail("Sand") ?? soil;
-            TerrainDef marsh = DefDatabase<TerrainDef>.GetNamedSilentFail("MarshyTerrain") ?? soil;
-            TerrainDef water = DefDatabase<TerrainDef>.GetNamedSilentFail("WaterMovingShallow") ?? soil;
-
-            foreach (IntVec3 cell in map.AllCells)
+            StarGatePlanetMapParent parent = map.Parent as StarGatePlanetMapParent;
+            int seed = parent?.generationSeed ?? map.ConstantRandSeed;
+            Rand.PushState(seed ^ SeedPart);
+            try
             {
-                float distance = cell.DistanceTo(map.Center);
-                TerrainDef terrain = soil;
-                if (distance > map.Size.x * 0.42f || distance > map.Size.z * 0.42f)
+                TerrainDef soil = TerrainDefOf.Soil;
+                TerrainDef richSoil = DefDatabase<TerrainDef>.GetNamedSilentFail("SoilRich") ?? soil;
+                TerrainDef gravel = DefDatabase<TerrainDef>.GetNamedSilentFail("Gravel") ?? soil;
+                TerrainDef sand = DefDatabase<TerrainDef>.GetNamedSilentFail("Sand") ?? soil;
+                TerrainDef marsh = DefDatabase<TerrainDef>.GetNamedSilentFail("MarshyTerrain") ?? soil;
+                TerrainDef water = DefDatabase<TerrainDef>.GetNamedSilentFail("WaterMovingShallow") ?? soil;
+                TerrainDef ice = DefDatabase<TerrainDef>.GetNamedSilentFail("Ice") ?? gravel;
+
+                string biome = map.Biome?.defName ?? string.Empty;
+                bool desert = biome == "Desert" || biome == "AridShrubland";
+                bool frozen = biome == "IceSheet" || biome == "Tundra";
+                bool swamp = biome == "TemperateSwamp";
+
+                foreach (IntVec3 cell in map.AllCells)
                 {
-                    terrain = gravel;
-                }
-                else if (Rand.Value < 0.08f)
-                {
-                    terrain = sand;
-                }
-                else if (Rand.Value < 0.06f)
-                {
-                    terrain = richSoil;
-                }
-                else if (Rand.Value < 0.025f)
-                {
-                    terrain = marsh;
-                }
-                else if (Rand.Value < 0.01f)
-                {
-                    terrain = water;
+                    float distance = cell.DistanceTo(map.Center);
+                    TerrainDef terrain = soil;
+                    if (distance > map.Size.x * 0.44f || distance > map.Size.z * 0.44f)
+                    {
+                        terrain = gravel;
+                    }
+                    else if (frozen)
+                    {
+                        terrain = Rand.Chance(0.82f) ? ice : gravel;
+                    }
+                    else if (desert)
+                    {
+                        terrain = Rand.Chance(0.84f) ? sand : gravel;
+                    }
+                    else if (swamp && Rand.Chance(0.18f))
+                    {
+                        terrain = Rand.Chance(0.22f) ? water : marsh;
+                    }
+                    else if (Rand.Chance(0.08f))
+                    {
+                        terrain = richSoil;
+                    }
+                    else if (Rand.Chance(0.05f))
+                    {
+                        terrain = sand;
+                    }
+
+                    map.terrainGrid.SetTerrain(cell, terrain);
                 }
 
-                map.terrainGrid.SetTerrain(cell, terrain);
+                if (frozen)
+                {
+                    ScatterThings(map, "ChunkGranite", 65, 0f, 10f);
+                }
+                else if (desert)
+                {
+                    ScatterThings(map, "Plant_Bush", 70, 0.65f, 12f);
+                    ScatterThings(map, "ChunkSandstone", 55, 0f, 10f);
+                }
+                else
+                {
+                    int treeCount = biome == "BorealForest" ? 260 : 170;
+                    ScatterThings(map, biome == "BorealForest" ? "Plant_TreePine" : "Plant_TreeOak", treeCount, 0.85f, 18f);
+                    ScatterThings(map, "Plant_Bush", swamp ? 220 : 150, 0.7f, 12f);
+                    ScatterThings(map, "ChunkGranite", 45, 0f, 10f);
+                    ScatterThings(map, "ChunkLimestone", 30, 0f, 10f);
+                }
+
+                ScatterThings(map, "MineableSteel", 26, 0f, 30f);
+                ScatterThings(map, "MineableComponentsIndustrial", 10, 0f, 35f);
+                ScatterRuins(map);
             }
-
-            ScatterThings(map, "Plant_TreeOak", 150, 0.85f, 18f);
-            ScatterThings(map, "Plant_TreePine", 90, 0.8f, 18f);
-            ScatterThings(map, "Plant_Bush", 180, 0.7f, 12f);
-            ScatterThings(map, "ChunkGranite", 45, 0f, 10f);
-            ScatterThings(map, "ChunkLimestone", 30, 0f, 10f);
-            ScatterThings(map, "MineableSteel", 26, 0f, 30f);
-            ScatterThings(map, "MineableComponentsIndustrial", 10, 0f, 35f);
-            ScatterRuins(map);
+            finally
+            {
+                Rand.PopState();
+            }
         }
 
         private void ScatterThings(Map map, string defName, int count, float plantGrowth, float clearRadius)
@@ -91,6 +124,11 @@ namespace RimGateJaffaKree
                 }
 
                 if (candidate.GetFirstThing(map, thingDef) != null || candidate.GetEdifice(map) != null)
+                {
+                    continue;
+                }
+
+                if (thingDef.plant != null && map.fertilityGrid.FertilityAt(candidate) <= 0.01f)
                 {
                     continue;
                 }

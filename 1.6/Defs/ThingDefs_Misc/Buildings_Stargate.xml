@@ -107,18 +107,21 @@
 
   <GenStepDef>
     <defName>StarGatePlanetSurface</defName>
-    <order>100</order>
+    <order>300</order>
     <genStep Class="RimGateJaffaKree.GenStep_StarGatePlanetSurface" />
   </GenStepDef>
 
-  <MapGeneratorDef>
-    <defName>StarGatePlanet</defName>
+  <MapGeneratorDef ParentName="Base_Player" Name="StarGatePlanetBase" Abstract="True">
     <label>StarGate planet</label>
     <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
     <disableCallAid>true</disableCallAid>
     <genSteps>
       <li>StarGatePlanetSurface</li>
     </genSteps>
+  </MapGeneratorDef>
+
+  <MapGeneratorDef ParentName="StarGatePlanetBase">
+    <defName>StarGatePlanet</defName>
     <pocketMapProperties>
       <biome>TemperateForest</biome>
       <temperature>21</temperature>
@@ -127,6 +130,90 @@
       <canBeCleaned>true</canBeCleaned>
     </pocketMapProperties>
   </MapGeneratorDef>
+
+  <MapGeneratorDef ParentName="StarGatePlanetBase">
+    <defName>StarGatePlanetTemperate</defName>
+    <pocketMapProperties>
+      <biome>TemperateForest</biome>
+      <temperature>21</temperature>
+      <destroyOnParentMapAbandoned>false</destroyOnParentMapAbandoned>
+      <preventPrisonerEscape>true</preventPrisonerEscape>
+      <canBeCleaned>true</canBeCleaned>
+    </pocketMapProperties>
+  </MapGeneratorDef>
+
+  <MapGeneratorDef ParentName="StarGatePlanetBase">
+    <defName>StarGatePlanetForest</defName>
+    <pocketMapProperties>
+      <biome>BorealForest</biome>
+      <temperature>10</temperature>
+      <destroyOnParentMapAbandoned>false</destroyOnParentMapAbandoned>
+      <preventPrisonerEscape>true</preventPrisonerEscape>
+      <canBeCleaned>true</canBeCleaned>
+    </pocketMapProperties>
+  </MapGeneratorDef>
+
+  <MapGeneratorDef ParentName="StarGatePlanetBase">
+    <defName>StarGatePlanetDesert</defName>
+    <pocketMapProperties>
+      <biome>Desert</biome>
+      <temperature>32</temperature>
+      <destroyOnParentMapAbandoned>false</destroyOnParentMapAbandoned>
+      <preventPrisonerEscape>true</preventPrisonerEscape>
+      <canBeCleaned>true</canBeCleaned>
+    </pocketMapProperties>
+  </MapGeneratorDef>
+
+  <MapGeneratorDef ParentName="StarGatePlanetBase">
+    <defName>StarGatePlanetIce</defName>
+    <pocketMapProperties>
+      <biome>IceSheet</biome>
+      <temperature>-35</temperature>
+      <destroyOnParentMapAbandoned>false</destroyOnParentMapAbandoned>
+      <preventPrisonerEscape>true</preventPrisonerEscape>
+      <canBeCleaned>true</canBeCleaned>
+    </pocketMapProperties>
+  </MapGeneratorDef>
+
+  <MapGeneratorDef ParentName="StarGatePlanetBase">
+    <defName>StarGatePlanetToxic</defName>
+    <pocketMapProperties>
+      <biome>TemperateSwamp</biome>
+      <temperature>18</temperature>
+      <destroyOnParentMapAbandoned>false</destroyOnParentMapAbandoned>
+      <preventPrisonerEscape>true</preventPrisonerEscape>
+      <canBeCleaned>true</canBeCleaned>
+    </pocketMapProperties>
+  </MapGeneratorDef>
+
+  <MapGeneratorDef ParentName="StarGatePlanetBase">
+    <defName>StarGatePlanetAncientRuins</defName>
+    <pocketMapProperties>
+      <biome>AridShrubland</biome>
+      <temperature>24</temperature>
+      <destroyOnParentMapAbandoned>false</destroyOnParentMapAbandoned>
+      <preventPrisonerEscape>true</preventPrisonerEscape>
+      <canBeCleaned>true</canBeCleaned>
+    </pocketMapProperties>
+  </MapGeneratorDef>
+
+  <WorldObjectDef>
+    <defName>StarGatePlanetGateway</defName>
+    <label>StarGate planetary gateway</label>
+    <description>A persistent gateway location on a separate StarGate planet.</description>
+    <worldObjectClass>MapParent</worldObjectClass>
+    <texture>Things/Building/Stargate/Offline_Gate</texture>
+    <selectable>true</selectable>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconPriority>70</expandingIconPriority>
+    <canHaveMap>true</canHaveMap>
+    <canBePlayerHome>false</canBePlayerHome>
+    <mapGenerator>Base_Player</mapGenerator>
+    <overrideMapSize>(150, 1, 150)</overrideMapSize>
+    <comps>
+      <li Class="WorldObjectCompProperties_FormCaravan" />
+    </comps>
+  </WorldObjectDef>
 
   <WorldObjectDef>
     <defName>StarGatePocketPlanet</defName>
@@ -140,6 +227,13 @@
     <canBePlayerHome>false</canBePlayerHome>
     <mapGenerator>Base_Player</mapGenerator>
     <overrideMapSize>(150, 1, 150)</overrideMapSize>
+  </WorldObjectDef>
+
+  <WorldObjectDef>
+    <defName>StarGatePlanetPocketMap</defName>
+    <label>StarGate planet</label>
+    <description>A persistent off-world location connected to a saved StarGate address.</description>
+    <worldObjectClass>RimGateJaffaKree.StarGatePlanetMapParent</worldObjectClass>
   </WorldObjectDef>
 
   <WorldObjectDef>

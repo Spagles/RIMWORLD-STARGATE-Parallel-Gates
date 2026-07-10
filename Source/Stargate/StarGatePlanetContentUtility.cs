@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using RimWorld.BaseGen;
 using UnityEngine;
 using Verse;
 
@@ -35,7 +36,7 @@ namespace RimGateJaffaKree
                 IntVec3 gateCell = gate.parent.Position;
                 PrepareArrivalZone(map, gateCell);
                 BuildAncientPlatform(map, gateCell);
-                ScatterRuins(map, gateCell, planet);
+                GeneratePointOfInterest(map, gateCell, planet, site);
                 ScatterResources(map, gateCell, planet);
                 ScatterPlanetFlavor(map, gateCell, planet);
                 site.contentGenerated = true;
@@ -44,6 +45,201 @@ namespace RimGateJaffaKree
             {
                 Rand.PopState();
             }
+        }
+
+        private static void GeneratePointOfInterest(Map map, IntVec3 gateCell, StarGatePlanetRecord planet, StarGateSiteRecord site)
+        {
+            string contentKind = site.contentKind.NullOrEmpty() ? "wilderness" : site.contentKind;
+            if (contentKind == "settlement" || contentKind == "outpost")
+            {
+                Faction faction = ResolveSettlementFaction(planet, site, contentKind == "outpost");
+                if (faction != null && TryGenerateSettlement(map, gateCell, planet, site, faction))
+                {
+                    return;
+                }
+
+                site.contentKind = "ancient_ruins";
+                site.factionLoadId = -1;
+                site.factionDefName = null;
+            }
+
+            if (site.contentKind == "ancient_ruins" || site.contentKind == "ruins")
+            {
+                ScatterRuins(map, gateCell, planet, site.contentKind == "ancient_ruins" ? 5 : 2);
+            }
+        }
+
+        private static Faction ResolveSettlementFaction(StarGatePlanetRecord planet, StarGateSiteRecord site, bool hostileOnly)
+        {
+            if (Find.FactionManager == null)
+            {
+                return null;
+            }
+
+            Faction stored = Find.FactionManager.AllFactions
+                .FirstOrDefault(faction => faction != null && faction.loadID == site.factionLoadId && !faction.defeated);
+            if (stored == null && !site.factionDefName.NullOrEmpty())
+            {
+                stored = Find.FactionManager.AllFactions
+                    .FirstOrDefault(faction => faction != null && faction.def?.defName == site.factionDefName && !faction.defeated);
+            }
+
+            if (stored != null)
+            {
+                return stored;
+            }
+
+            if (site.factionLoadId >= 0 || !site.factionDefName.NullOrEmpty())
+            {
+                return null;
+            }
+
+            List<Faction> candidates = Find.FactionManager.AllFactionsVisible
+                .Where(IsEligibleSettlementFaction)
+                .ToList();
+
+            if (hostileOnly)
+            {
+                List<Faction> hostile = candidates
+                    .Where(faction => faction.PlayerRelationKind == FactionRelationKind.Hostile)
+                    .ToList();
+                if (hostile.Count > 0)
+                {
+                    candidates = hostile;
+                }
+            }
+            else if (planet.civilizationLevel == "Scattered tribes")
+            {
+                List<Faction> tribal = candidates
+                    .Where(faction => faction.def.techLevel <= TechLevel.Neolithic)
+                    .ToList();
+                if (tribal.Count > 0)
+                {
+                    candidates = tribal;
+                }
+            }
+
+            if (planet.IsJaffaControlled)
+            {
+                List<Faction> jaffa = candidates
+                    .Where(faction => faction.def.defName.StartsWith("Jaffa"))
+                    .ToList();
+                if (jaffa.Count > 0)
+                {
+                    candidates = hostileOnly ? jaffa : candidates.Where(faction => !faction.def.defName.StartsWith("Jaffa") && faction.def.techLevel <= TechLevel.Neolithic).ToList();
+                    if (candidates.Count == 0)
+                    {
+                        candidates = jaffa;
+                    }
+                }
+            }
+
+            if (candidates.Count == 0)
+            {
+                return null;
+            }
+
+            List<Faction> weighted = new List<Faction>();
+            foreach (Faction candidate in candidates.OrderBy(faction => faction.def.defName).ThenBy(faction => faction.loadID))
+            {
+                weighted.Add(candidate);
+                if (candidate.def.defName.StartsWith("Jaffa"))
+                {
+                    weighted.Add(candidate);
+                    weighted.Add(candidate);
+                }
+            }
+
+            Rand.PushState((planet.IsJaffaControlled ? planet.generationSeed : (site.seed == 0 ? planet.generationSeed : site.seed)) ^ 0x4F31A);
+            try
+            {
+                Faction selected = weighted[Rand.Range(0, weighted.Count)];
+                site.factionLoadId = selected.loadID;
+                site.factionDefName = selected.def.defName;
+                return selected;
+            }
+            finally
+            {
+                Rand.PopState();
+            }
+        }
+
+        private static bool IsEligibleSettlementFaction(Faction faction)
+        {
+            return faction != null
+                && !faction.IsPlayer
+                && !faction.defeated
+                && faction.def != null
+                && !faction.def.hidden
+                && faction.def.humanlikeFaction
+                && faction.def.settlementGenerationWeight > 0f
+                && faction.def.pawnGroupMakers != null
+                && faction.def.pawnGroupMakers.Count > 0;
+        }
+
+        private static bool TryGenerateSettlement(Map map, IntVec3 gateCell, StarGatePlanetRecord planet, StarGateSiteRecord site, Faction faction)
+        {
+            if (!TryFindSettlementRect(map, gateCell, out CellRect rect))
+            {
+                return false;
+            }
+
+            try
+            {
+                BaseGen.Reset();
+                BaseGen.globalSettings.map = map;
+                BaseGen.globalSettings.mainRect = rect;
+                ResolveParams resolveParams = new ResolveParams
+                {
+                    rect = rect,
+                    faction = faction,
+                    settlementPawnGroupPoints = Mathf.Max(300f, site.threatLevel * 140f)
+                };
+                BaseGen.symbolStack.Push("settlement", resolveParams, null);
+                BaseGen.Generate();
+                return true;
+            }
+            catch (System.Exception exception)
+            {
+                Log.Warning("StarGate settlement generation failed for " + planet.address + " / " + site.id + ": " + exception);
+                return false;
+            }
+            finally
+            {
+                BaseGen.Reset();
+            }
+        }
+
+        private static bool TryFindSettlementRect(Map map, IntVec3 gateCell, out CellRect rect)
+        {
+            int width = 34;
+            int height = 30;
+            IntVec3[] centers =
+            {
+                new IntVec3(map.Size.x - 35, 0, map.Size.z - 35),
+                new IntVec3(35, 0, map.Size.z - 35),
+                new IntVec3(map.Size.x - 35, 0, 35),
+                new IntVec3(35, 0, 35)
+            };
+
+            foreach (IntVec3 center in centers.OrderBy(candidate => StarGatePlanetSystem.StableSeed(candidate.ToString())))
+            {
+                CellRect candidate = CellRect.CenteredOn(center, width, height).ClipInsideMap(map);
+                if (candidate.Width < width || candidate.Height < height || candidate.ClosestCellTo(gateCell).DistanceTo(gateCell) < 20f)
+                {
+                    continue;
+                }
+
+                int standable = candidate.Cells.Count(cell => cell.Standable(map));
+                if (standable >= candidate.Area * 0.7f)
+                {
+                    rect = candidate;
+                    return true;
+                }
+            }
+
+            rect = CellRect.Empty;
+            return false;
         }
 
         private static void ShowDiscoveryLetter(StarGatePlanetSystem planetSystem, StarGatePlanetRecord planet, StarGateSiteRecord site, Thing gate)
@@ -123,9 +319,9 @@ namespace RimGateJaffaKree
             }
         }
 
-        private static void ScatterRuins(Map map, IntVec3 gateCell, StarGatePlanetRecord planet)
+        private static void ScatterRuins(Map map, IntVec3 gateCell, StarGatePlanetRecord planet, int requestedCount)
         {
-            int count = planet.planetType == "ancient_ruins" ? 5 : 2;
+            int count = planet.planetType == "ancient_ruins" ? System.Math.Max(5, requestedCount) : requestedCount;
             ThingDef wallDef = ThingDef.Named("Wall");
             ThingDef material = DefDatabase<ThingDef>.GetNamedSilentFail("BlocksSandstone")
                 ?? DefDatabase<ThingDef>.GetNamedSilentFail("BlocksGranite")
