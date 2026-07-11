@@ -1,0 +1,67 @@
+RIMWORLD-STARGATE: Parallel Gates
+
+Build the Stargate network, dial seven-symbol addresses, and explore persistent worlds beyond your home planet.
+
+[h1]IMPORTANT: REQUIREMENTS[/h1]
+
+[list]
+[*]RimWorld 1.6
+[*]Odyssey DLC - REQUIRED for independent planet layers and world-map travel
+[*]Harmony
+[*]Humanoid Alien Races
+[/list]
+
+Subscribe to all required items before starting the mod. A full restart of RimWorld is recommended after installing or updating.
+
+[h1]WHAT THIS MOD ADDS[/h1]
+
+[list]
+[*]A craftable and usable StarGate with a control panel
+[*]Manual seven-symbol address dialing
+[*]A persistent home address and saved destination addresses
+[*]A separate RimWorld world map for every new Stargate address
+[*]Persistent foreign planets with their own terrain, biomes, roads, factions, settlements, and discoverable locations
+[*]Travel between the home world and foreign planets through the Stargate
+[*]Caravan travel and exploration across foreign planets
+[*]Hidden locations revealed through exploration and scanning
+[*]Jaffa race content, factions, pawn kinds, armor, weapons, and equipment
+[*]Incoming Stargate events including raids, traders, allies, and visitors
+[*]Deterministic planet generation: the same address creates the same initial planetary profile
+[*]A 40% deterministic chance for a Jaffa-controlled world with native low-tech settlements and Jaffa military outposts
+[/list]
+
+[h1]HOW TO START[/h1]
+
+1. Start a new game with the required mods enabled.
+2. Find the automatically prepared home Stargate and control panel.
+3. Dial a new seven-symbol address.
+4. Travel through the gate to create and visit the foreign planet.
+5. Open the world map, form a caravan, and explore the planet.
+6. Scan and investigate locations as they become known.
+
+For the full independent-globe system, use a new address. Older pocket-map destinations from previous development versions remain legacy content and are not automatically converted.
+
+[h1]CURRENT DEVELOPMENT STATUS[/h1]
+
+This is an early public release focused on the core planetary travel system. The mod is playable, but active development continues. Expect balance changes, new events, more planetary cultures, improved Jaffa-controlled worlds, and additional story content.
+
+[h1]FEEDBACK AND COMMUNITY[/h1]
+
+[list]
+[*]Discord: https://discord.gg/SjSH9Tkpf
+[*]Website: https://stargatemod.page.gd/
+[*]Source code and issue tracking: https://github.com/panzmoravylab/RIMWORLD-STARGATE-Parallel-Gates
+[*]Video channel: https://www.youtube.com/@panzmoravylab
+[/list]
+
+Please report bugs with the RimWorld version, mod version, active mod list and load order, what happened, what you expected, and the relevant Player.log or HugsLib log.
+
+Suggestions, balance feedback, screenshots, and ideas for new planets are welcome on Discord.
+
+[h1]CREDITS AND DISCLAIMER[/h1]
+
+Based on RimGate Jaffa/Kree by Helixien, Xen, Mlie, Carnov, CPT.OHU, Erdelf, and contributors.
+
+This is an unofficial fan-made project and is not affiliated with or endorsed by MGM, Amazon, Ludeon Studios, or the original mod authors.
+
+Version: 0.1.0

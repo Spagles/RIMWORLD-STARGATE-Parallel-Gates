@@ -35,7 +35,7 @@ namespace RimGateJaffaKree
             float y = inRect.y + 46f;
             if (planetSystem == null)
             {
-                Widgets.Label(new Rect(inRect.x, y, inRect.width, 28f), "Address database is not available.");
+                Widgets.Label(new Rect(inRect.x, y, inRect.width, 28f), StarGateText.Get("StarGate_AddressBookUnavailable"));
                 return;
             }
 
@@ -130,7 +130,7 @@ namespace RimGateJaffaKree
             Rect scrollOut = new Rect(rect.x + 10f, rect.y + 44f, rect.width - 20f, rect.height - 54f);
             if (knownPlanets.Count == 0)
             {
-                Widgets.Label(new Rect(scrollOut.x, scrollOut.y, scrollOut.width, 28f), "No discovered planets yet.");
+                Widgets.Label(new Rect(scrollOut.x, scrollOut.y, scrollOut.width, 28f), StarGateText.Get("StarGate_NoPlanetsYet"));
                 return;
             }
 
@@ -186,14 +186,14 @@ namespace RimGateJaffaKree
         {
             if (!StarGatePlanetSystem.IsValidAddress(address))
             {
-                Messages.Message("StarGate adresa neni platna.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_AddressInvalid"), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
             CompStarGate gate = panel.LinkedGate();
             if (gate == null)
             {
-                Messages.Message("Panel neni pripojen k brane.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_PanelNotConnected"), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 

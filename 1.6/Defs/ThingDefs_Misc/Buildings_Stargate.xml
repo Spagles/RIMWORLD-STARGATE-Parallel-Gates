@@ -23,7 +23,8 @@
     <fillPercent>0.35</fillPercent>
     <rotatable>false</rotatable>
     <tickerType>Normal</tickerType>
-    <useHitPoints>true</useHitPoints>
+    <useHitPoints>false</useHitPoints>
+    <destroyable>false</destroyable>
     <statBases>
       <MaxHitPoints>1200</MaxHitPoints>
       <Flammability>0</Flammability>

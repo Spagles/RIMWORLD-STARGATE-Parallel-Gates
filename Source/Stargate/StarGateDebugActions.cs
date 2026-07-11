@@ -47,7 +47,7 @@ namespace RimGateJaffaKree
             Map map = Find.CurrentMap;
             if (map == null)
             {
-                Messages.Message("StarGate debug incident vyzaduje aktivni mapu.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_DebugMapRequired"), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
@@ -58,7 +58,7 @@ namespace RimGateJaffaKree
 
             if (!ok)
             {
-                Messages.Message("StarGate debug incident se nepodarilo spustit.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_DebugIncidentFailed"), MessageTypeDefOf.RejectInput, false);
             }
         }
     }

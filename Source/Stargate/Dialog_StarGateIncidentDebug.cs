@@ -48,7 +48,7 @@ namespace RimGateJaffaKree
 
                 if (!triggered)
                 {
-                    Messages.Message("StarGate debug incident se nepodarilo spustit.", MessageTypeDefOf.RejectInput, false);
+                    Messages.Message(StarGateText.Get("StarGate_DebugIncidentFailed"), MessageTypeDefOf.RejectInput, false);
                 }
                 else
                 {

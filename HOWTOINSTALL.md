@@ -1,71 +1,56 @@
-# HOW TO INSTALL / JAK NAINSTALOVAT
+# Installation Guide
 
-## English
-
-### What you need
+## Requirements
 
 - RimWorld 1.6
+- Odyssey DLC (required for independent planet layers and world-map travel)
 - Harmony
 - Humanoid Alien Races
-- This mod: `RIMWORLD-STARGATE: Parallel Gates`
+- RIMWORLD-STARGATE: Parallel Gates
 
-### Installation steps
+## Installation
 
-1. Download or clone this repository.
-2. Make sure you have the full mod folder available locally.
-3. Copy the whole mod folder into:
+### Manual installation
+
+1. Download the mod from GitHub or Steam Workshop.
+2. If using GitHub, extract the complete `Rimworld@Gate` folder.
+3. Copy it into:
+
    `C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods`
-4. Start RimWorld.
-5. Open the `Mods` menu.
-6. Enable these mods in this order:
-   - `Harmony`
-   - `Humanoid Alien Races`
-   - `RIMWORLD-STARGATE: Parallel Gates`
-7. Let RimWorld restart.
 
-### Important notes
+4. Start RimWorld and open the `Mods` menu.
+5. Enable the mods in this order:
+   - Harmony
+   - Odyssey
+   - Humanoid Alien Races
+   - RIMWORLD-STARGATE: Parallel Gates
+6. Restart RimWorld when prompted.
 
-- If you update the mod manually, replace the old folder with the new one.
-- A full game restart is recommended after every update.
-- DevTools are useful for testing Stargate features, but not required for normal play.
+### Steam Workshop installation
 
-### Community links
+Subscribe to this mod and all required items on Steam Workshop. Make sure the Odyssey DLC is installed and enabled. Restart RimWorld after subscribing or updating.
 
-- Discord: [https://discord.gg/SjSH9Tkpf](https://discord.gg/SjSH9Tkpf)
-- Website: [https://stargatemod.page.gd/](https://stargatemod.page.gd/)
-- YouTube: [https://www.youtube.com/@panzmoravylab](https://www.youtube.com/@panzmoravylab)
+## First game
 
-## Cesky
+1. Start a new game with the required mods enabled.
+2. Find the prepared home Stargate and its control panel.
+3. Dial a seven-symbol address.
+4. Travel through the gate to create and visit a foreign planet.
+5. Open the world map and form a caravan to explore the planet.
 
-### Co potrebujes
+Use a new address when testing the full independent-planet system. Legacy pocket maps from older development versions remain loadable but are not automatically converted.
 
-- RimWorld 1.6
-- Harmony
-- Humanoid Alien Races
-- Tento mod: `RIMWORLD-STARGATE: Parallel Gates`
+## Troubleshooting
 
-### Postup instalace
+- Restart RimWorld after every mod update.
+- Check that Odyssey, Harmony, and Humanoid Alien Races are enabled.
+- Check the mod load order.
+- Test with a new Stargate address.
+- When reporting a problem, include the RimWorld version, mod version, active mod list, load order, and Player.log or HugsLib log.
 
-1. Stahni nebo naklonuj tento repozitar.
-2. Ujisti se, ze mas lokalne cely mod folder.
-3. Zkopiruj cely mod folder do:
-   `C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods`
-4. Spust RimWorld.
-5. Otevri menu `Mods`.
-6. Aktivuj tyto mody v tomto poradi:
-   - `Harmony`
-   - `Humanoid Alien Races`
-   - `RIMWORLD-STARGATE: Parallel Gates`
-7. Nech hru restartovat.
+## Community
 
-### Dulezite poznamky
-
-- Pokud mod aktualizujes rucne, nahrad starou slozku novou.
-- Po kazde aktualizaci doporucuji uplny restart hry.
-- DevTools se hodi na testovani Stargate funkci, ale pro normalni hrani nejsou nutne.
-
-### Komunitni odkazy
-
-- Discord: [https://discord.gg/SjSH9Tkpf](https://discord.gg/SjSH9Tkpf)
-- Website: [https://stargatemod.page.gd/](https://stargatemod.page.gd/)
-- YouTube: [https://www.youtube.com/@panzmoravylab](https://www.youtube.com/@panzmoravylab)
+- Discord: https://discord.gg/SjSH9Tkpf
+- Website: https://stargatemod.page.gd/
+- Source code and issues: https://github.com/panzmoravylab/RIMWORLD-STARGATE-Parallel-Gates
+- YouTube: https://www.youtube.com/@panzmoravylab

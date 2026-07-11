@@ -138,7 +138,7 @@ namespace RimGateJaffaKree
                 return;
             }
 
-            Messages.Message("StarGate domaci adresa: " + homeAddress, MessageTypeDefOf.PositiveEvent, false);
+            Messages.Message(StarGateText.Format("StarGate_HomeAddress", homeAddress), MessageTypeDefOf.PositiveEvent, false);
             homeAddressMessageShown = true;
         }
 

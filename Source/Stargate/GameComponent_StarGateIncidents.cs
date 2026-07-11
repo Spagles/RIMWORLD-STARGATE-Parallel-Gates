@@ -281,20 +281,20 @@ namespace RimGateJaffaKree
 
             if (eventKind == IncomingEventKind.HostileRaid)
             {
-                title = "StarGate naruseni";
-                text = faction.Name + " prochazi StarGate a utoci na tvoji kolonii. Pocet prichozich: " + pawnCount + ".";
+                title = StarGateText.Get("StarGate_RaidLetterTitle");
+                text = StarGateText.Format("StarGate_RaidLetterText", faction.Name, pawnCount);
                 letterDef = LetterDefOf.ThreatBig;
             }
             else if (eventKind == IncomingEventKind.TraderVisit)
             {
-                title = "StarGate navsteva";
-                text = faction.Name + " dorazila skrz StarGate jako ozbrojeny kontakt. Pokud jsou neutralni, mohou s tebou obchodovat.";
+                title = StarGateText.Get("StarGate_VisitLetterTitle");
+                text = StarGateText.Format("StarGate_VisitLetterText", faction.Name);
                 letterDef = LetterDefOf.PositiveEvent;
             }
             else
             {
-                title = "StarGate spojenci";
-                text = faction.Name + " dorazila skrz StarGate jako spojenecka navsteva.";
+                title = StarGateText.Get("StarGate_AllyLetterTitle");
+                text = StarGateText.Format("StarGate_AllyLetterText", faction.Name);
                 letterDef = LetterDefOf.PositiveEvent;
             }
 

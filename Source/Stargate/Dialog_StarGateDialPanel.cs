@@ -47,7 +47,7 @@ namespace RimGateJaffaKree
         public override void DoWindowContents(Rect inRect)
         {
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 32f), "StarGate dialing address");
+            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 32f), StarGateText.Get("StarGate_DialingAddress"));
 
             Text.Font = GameFont.Small;
             Rect addressRect = new Rect(inRect.x, inRect.y + 36f, inRect.width, 28f);
@@ -205,7 +205,7 @@ namespace RimGateJaffaKree
 
             if (selectedSymbols.Count >= AddressLength)
             {
-                Messages.Message("Adresa uz ma sedm symbolu.", MessageTypeDefOf.NeutralEvent, false);
+                Messages.Message(StarGateText.Get("StarGate_AddressFull"), MessageTypeDefOf.NeutralEvent, false);
                 return;
             }
 
@@ -283,7 +283,7 @@ namespace RimGateJaffaKree
         {
             if (selectedSymbols.Count != AddressLength)
             {
-                Messages.Message("StarGate adresa musi mit sedm symbolu.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_AddressSeven"), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
@@ -295,7 +295,7 @@ namespace RimGateJaffaKree
             CompStarGate gate = panel.LinkedGate();
             if (gate == null)
             {
-                Messages.Message("Panel neni pripojen k brane.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_PanelNotConnected"), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 

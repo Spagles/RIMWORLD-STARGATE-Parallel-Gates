@@ -64,35 +64,35 @@ namespace RimGateJaffaKree
             CompStarGate gate = LinkedGate();
             if (gate == null)
             {
-                yield return new FloatMenuOption("Zapnout StarGate: panel neni pripojen k brane", null);
+                yield return new FloatMenuOption(StarGateText.Get("StarGate_PanelDisconnected"), null);
                 yield break;
             }
 
             if (gate.IsOnline)
             {
-                yield return new FloatMenuOption("StarGate spojeni je aktivni", null);
+                yield return new FloatMenuOption(StarGateText.Get("StarGate_ConnectionActive"), null);
                 yield break;
             }
 
             if (gate.IsWarmingUp)
             {
-                yield return new FloatMenuOption("StarGate se spousti", null);
+                yield return new FloatMenuOption(StarGateText.Get("StarGate_WarmingUp"), null);
                 yield break;
             }
 
             if (!selPawn.CanReach(parent, PathEndMode.Touch, Danger.Some))
             {
-                yield return new FloatMenuOption("Zapnout StarGate: nelze dojit k panelu", null);
+                yield return new FloatMenuOption(StarGateText.Get("StarGate_CannotReachPanel"), null);
                 yield break;
             }
 
-            yield return new FloatMenuOption("Zapnout StarGate", delegate
+            yield return new FloatMenuOption(StarGateText.Get("StarGate_Enable"), delegate
             {
                 Job job = JobMaker.MakeJob(StarGateDefOf.UseStarGateControlPanel, parent);
                 selPawn.jobs.TryTakeOrderedJob(job);
             });
 
-            yield return new FloatMenuOption("Otevrit StarGate adresar", delegate
+            yield return new FloatMenuOption(StarGateText.Get("StarGate_OpenAddressBook"), delegate
             {
                 Find.WindowStack.Add(new Dialog_StarGateAddressBook(this));
             });
@@ -107,8 +107,8 @@ namespace RimGateJaffaKree
 
             yield return new Command_Action
             {
-                defaultLabel = "Adresar",
-                defaultDesc = "Otevre posledni a domovske StarGate adresy.",
+                defaultLabel = StarGateText.Get("StarGate_AddressBook"),
+                defaultDesc = StarGateText.Get("StarGate_AddressBookDesc"),
                 icon = BaseContent.WhiteTex,
                 action = delegate
                 {
@@ -118,8 +118,8 @@ namespace RimGateJaffaKree
 
             yield return new Command_Action
             {
-                defaultLabel = "Galaxy",
-                defaultDesc = "Otevre StarGate seznam domovske planety a objevenych planet.",
+                defaultLabel = StarGateText.Get("StarGate_Galaxy"),
+                defaultDesc = StarGateText.Get("StarGate_GalaxyDesc"),
                 icon = BaseContent.WhiteTex,
                 action = delegate
                 {
@@ -129,8 +129,8 @@ namespace RimGateJaffaKree
 
             yield return new Command_Action
             {
-                defaultLabel = "StarGate DB",
-                defaultDesc = "Zobrazi ulozene StarGate planety, adresy a mapy.",
+                defaultLabel = StarGateText.Get("StarGate_Database"),
+                defaultDesc = StarGateText.Get("StarGate_DatabaseDesc"),
                 icon = BaseContent.WhiteTex,
                 action = delegate
                 {
@@ -140,8 +140,8 @@ namespace RimGateJaffaKree
 
             yield return new Command_Action
             {
-                defaultLabel = "Debug prichod",
-                defaultDesc = "Otevre debug volby pro raid, obchodniky a spojence pres StarGate.",
+                defaultLabel = StarGateText.Get("StarGate_DebugArrival"),
+                defaultDesc = StarGateText.Get("StarGate_DebugArrivalDesc"),
                 icon = BaseContent.WhiteTex,
                 action = delegate
                 {

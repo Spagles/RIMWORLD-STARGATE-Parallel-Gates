@@ -25,12 +25,12 @@ namespace RimGateJaffaKree
             planetSystem?.EnsureInitialized();
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f), "StarGate database");
+            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f), StarGateText.Get("StarGate_DatabaseTitle"));
             Text.Font = GameFont.Small;
 
             if (planetSystem == null)
             {
-                Widgets.Label(new Rect(inRect.x, inRect.y + 46f, inRect.width, 28f), "StarGate database is not available.");
+                Widgets.Label(new Rect(inRect.x, inRect.y + 46f, inRect.width, 28f), StarGateText.Get("StarGate_DatabaseUnavailable"));
                 return;
             }
 
@@ -91,7 +91,7 @@ namespace RimGateJaffaKree
 
         private static string LabelOrFallback(string value, string fallback)
         {
-            return value.NullOrEmpty() ? fallback : value;
+            return StarGateText.Value(value, fallback);
         }
     }
 }

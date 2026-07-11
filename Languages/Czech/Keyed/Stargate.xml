@@ -1,4 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <StarGate_TravelingWormhole>Prave cestujes cervi dirou...</StarGate_TravelingWormhole>
+  <StarGate_PanelDisconnected>Zapnout StarGate: panel neni pripojen k brane</StarGate_PanelDisconnected>
+  <StarGate_ConnectionActive>StarGate spojeni je aktivni</StarGate_ConnectionActive>
+  <StarGate_WarmingUp>StarGate se spousti</StarGate_WarmingUp>
+  <StarGate_CannotReachPanel>Zapnout StarGate: nelze dojit k panelu</StarGate_CannotReachPanel>
+  <StarGate_Enable>Zapnout StarGate</StarGate_Enable>
+  <StarGate_OpenAddressBook>Otevrit StarGate adresar</StarGate_OpenAddressBook>
+  <StarGate_AddressBook>Adresar</StarGate_AddressBook>
+  <StarGate_AddressBookDesc>Otevre posledni a domovske StarGate adresy.</StarGate_AddressBookDesc>
+  <StarGate_Galaxy>Galaxie</StarGate_Galaxy>
+  <StarGate_GalaxyDesc>Otevre seznam domovske planety a objevenych planet.</StarGate_GalaxyDesc>
+  <StarGate_Database>StarGate databaze</StarGate_Database>
+  <StarGate_DatabaseDesc>Zobrazi ulozene StarGate planety, adresy a mapy.</StarGate_DatabaseDesc>
+  <StarGate_DebugArrival>Debug prichody</StarGate_DebugArrival>
+  <StarGate_DebugArrivalDesc>Otevre debug volby pro raidy, obchodniky a spojence pres StarGate.</StarGate_DebugArrivalDesc>
+  <StarGate_Online>(online)</StarGate_Online>
+  <StarGate_WarmingUpLabel>(spousti se)</StarGate_WarmingUpLabel>
+  <StarGate_Enter>Projit</StarGate_Enter>
+  <StarGate_PanelOnly>StarGate se ovlada pouze panelem</StarGate_PanelOnly>
+  <StarGate_EnterIncomingFatal>Vstoupit do prichozi brany (smrtelne)</StarGate_EnterIncomingFatal>
+  <StarGate_AddressInvalid>StarGate adresa neni platna.</StarGate_AddressInvalid>
+  <StarGate_AddressSeven>StarGate adresa musi mit sedm symbolu.</StarGate_AddressSeven>
+  <StarGate_AddressFull>Adresa uz ma sedm symbolu.</StarGate_AddressFull>
+  <StarGate_PanelNotConnected>Panel neni pripojen k brane.</StarGate_PanelNotConnected>
+  <StarGate_TravelUnavailable>StarGate: neni dostupny kolonista pro cestu.</StarGate_TravelUnavailable>
+  <StarGate_ConnectionFailed>StarGate nedokazala navazat spojeni.</StarGate_ConnectionFailed>
+  <StarGate_SameMap>Cilova mapa je aktualni mapa. Cesta byla zrusena.</StarGate_SameMap>
+  <StarGate_DestinationGateFailed>Na cilove mape se nepodarilo vytvorit StarGate.</StarGate_DestinationGateFailed>
+  <StarGate_NoArrivalSpace>StarGate nenasla dostatek volneho mista pro prichod.</StarGate_NoArrivalSpace>
+  <StarGate_TravelComplete>StarGate pruchod dokoncen.</StarGate_TravelComplete>
+  <StarGate_TravelFailed>StarGate pruchod selhal. Podivej se do error logu.</StarGate_TravelFailed>
+  <StarGate_IncomingFatal>{0} vstoupil do prichoziho cerviho otvoru. Prichozi StarGate je jednosmerna.</StarGate_IncomingFatal>
+  <StarGate_HomeConnection>StarGate navazuje spojeni s domovskou planetou.</StarGate_HomeConnection>
+  <StarGate_HomeMapMissing>StarGate nenasla ulozenou domovskou mapu.</StarGate_HomeMapMissing>
+  <StarGate_TargetUnavailable>Vybrana lokalita neni dostupna. Spojeni pouzije hlavni branu planety.</StarGate_TargetUnavailable>
+  <StarGate_CreatingPlanet>StarGate vytvari novou planetarni lokaci.</StarGate_CreatingPlanet>
+  <StarGate_RestoringPlanet>StarGate znovu otevira ulozenou planetu: {0}</StarGate_RestoringPlanet>
+  <StarGate_CreatedPlanet>StarGate vytvorila novou planetarni lokaci: {0}</StarGate_CreatedPlanet>
+  <StarGate_PlanetFailed>StarGate nedokazala vytvorit samostatnou planetarni mapu. Cesta byla zrusena.</StarGate_PlanetFailed>
+  <StarGate_HomeAddress>Domaci adresa StarGate: {0}</StarGate_HomeAddress>
+  <StarGate_ScanEmpty>StarGate scan nenasel zadne dalsi skryte signaly.</StarGate_ScanEmpty>
+  <StarGate_DebugMapRequired>StarGate debug incident vyzaduje aktivni mapu.</StarGate_DebugMapRequired>
+  <StarGate_DebugIncidentFailed>StarGate debug incident se nepodarilo spustit.</StarGate_DebugIncidentFailed>
+  <StarGate_GalaxyTitle>StarGate galaxie</StarGate_GalaxyTitle>
+  <StarGate_GalaxyUnavailable>Databaze StarGate galaxie neni dostupna.</StarGate_GalaxyUnavailable>
+  <StarGate_SiteDiscovered>Objevena lokalita StarGate</StarGate_SiteDiscovered>
+  <StarGate_DatabaseTitle>StarGate databaze</StarGate_DatabaseTitle>
+  <StarGate_DatabaseUnavailable>StarGate databaze neni dostupna.</StarGate_DatabaseUnavailable>
+  <StarGate_RaidLetterTitle>Naruseni StarGate</StarGate_RaidLetterTitle>
+  <StarGate_RaidLetterText>{0} prochazi StarGate a utoci na tvoji kolonii. Pocet prichozich: {1}.</StarGate_RaidLetterText>
+  <StarGate_VisitLetterTitle>Navsteva pres StarGate</StarGate_VisitLetterTitle>
+  <StarGate_VisitLetterText>{0} dorazila skrz StarGate jako ozbrojeny kontakt. Pokud jsou neutralni, mohou s tebou obchodovat.</StarGate_VisitLetterText>
+  <StarGate_AllyLetterTitle>StarGate spojenci</StarGate_AllyLetterTitle>
+  <StarGate_AllyLetterText>{0} dorazila skrz StarGate jako spojenecka navsteva.</StarGate_AllyLetterText>
+  <StarGate_PlanetDiscoveredTitle>Objevena planeta StarGate</StarGate_PlanetDiscoveredTitle>
+  <StarGate_PlanetDiscoveredText>Tvoji koloniste prosli cervi dirou a dorazili na planetu {0}.
+
+Adresa: {1}
+Seed planety: {2}
+Typ planety: {3}
+Atmosfera: {4}
+Civilizace: {5}
+Uroven hrozby: {6}/10
+Bohatstvi zdroju: {7}/10
+Hlavni lokalita: {8}</StarGate_PlanetDiscoveredText>
+  <StarGate_Value_unknown>nezname</StarGate_Value_unknown>
+  <StarGate_Value_temperate>mirne</StarGate_Value_temperate>
+  <StarGate_Value_forest>les</StarGate_Value_forest>
+  <StarGate_Value_desert>poust</StarGate_Value_desert>
+  <StarGate_Value_ice>ledova</StarGate_Value_ice>
+  <StarGate_Value_toxic>toxicka</StarGate_Value_toxic>
+  <StarGate_Value_ancient_ruins>prastare ruiny</StarGate_Value_ancient_ruins>
+  <StarGate_Value_Uninhabited>neosidleny</StarGate_Value_Uninhabited>
+  <StarGate_Value_Ruins>ruiny</StarGate_Value_Ruins>
+  <StarGate_Value_Scattered_tribes>rozptylene kmeny</StarGate_Value_Scattered_tribes>
+  <StarGate_Value_Hidden_settlements>skryte osady</StarGate_Value_Hidden_settlements>
+  <StarGate_Value_Hostile_outposts>nepratelske zakladny</StarGate_Value_Hostile_outposts>
+  <StarGate_Value_Ancient_network>prastara sit</StarGate_Value_Ancient_network>
+  <StarGate_Value_Jaffa_controlled_world>svet pod nadvládou Jaffu</StarGate_Value_Jaffa_controlled_world>
+  <StarGate_Value_Breathable>dychatelna</StarGate_Value_Breathable>
+  <StarGate_Value_Thin>ridka</StarGate_Value_Thin>
+  <StarGate_Value_Humid>vlhka</StarGate_Value_Humid>
+  <StarGate_Value_Dust_heavy>prachova</StarGate_Value_Dust_heavy>
+  <StarGate_Value_Irradiated>ozarena</StarGate_Value_Irradiated>
+  <StarGate_Value_Toxic_traces>stopy toxinu</StarGate_Value_Toxic_traces>
+  <StarGate_Value_primary_gate>hlavni brana</StarGate_Value_primary_gate>
+  <StarGate_Value_settlement>osada</StarGate_Value_settlement>
+  <StarGate_Value_ruin>ruina</StarGate_Value_ruin>
+  <StarGate_Value_outpost>zakladna</StarGate_Value_outpost>
+  <StarGate_Value_jaffa_outpost>Jaffa zakladna</StarGate_Value_jaffa_outpost>
+  <StarGate_UnknownDestination>Neznama destinace</StarGate_UnknownDestination>
+  <StarGate_DiscoveredPlanets>Objevene planety</StarGate_DiscoveredPlanets>
+  <StarGate_NoDiscoveredPlanets>Zatim nebyly objeveny zadne planety. Vytoc novou neznamou adresu.</StarGate_NoDiscoveredPlanets>
+  <StarGate_HomePlanet>Domovska planeta</StarGate_HomePlanet>
+  <StarGate_NoPlanetSelected>Neni vybrana zadna planeta.</StarGate_NoPlanetSelected>
+  <StarGate_PlanetSites>Lokality planety</StarGate_PlanetSites>
+  <StarGate_NoSiteRecords>Zadne zaznamy lokalit.</StarGate_NoSiteRecords>
+  <StarGate_DialingAddress>Vytaceni adresy StarGate</StarGate_DialingAddress>
+  <StarGate_AddressBookUnavailable>Databaze adres neni dostupna.</StarGate_AddressBookUnavailable>
+  <StarGate_NoPlanetsYet>Zatim nebyly objeveny zadne planety.</StarGate_NoPlanetsYet>
 </LanguageData>

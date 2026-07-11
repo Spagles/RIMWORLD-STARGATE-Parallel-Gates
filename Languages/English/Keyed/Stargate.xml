@@ -1,4 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <StarGate_TravelingWormhole>Traveling through the wormhole...</StarGate_TravelingWormhole>
+  <StarGate_PanelDisconnected>Enable StarGate: the panel is not connected to a gate</StarGate_PanelDisconnected>
+  <StarGate_ConnectionActive>StarGate connection is active</StarGate_ConnectionActive>
+  <StarGate_WarmingUp>StarGate is warming up</StarGate_WarmingUp>
+  <StarGate_CannotReachPanel>Enable StarGate: cannot reach the panel</StarGate_CannotReachPanel>
+  <StarGate_Enable>Enable StarGate</StarGate_Enable>
+  <StarGate_OpenAddressBook>Open StarGate address book</StarGate_OpenAddressBook>
+  <StarGate_AddressBook>Address book</StarGate_AddressBook>
+  <StarGate_AddressBookDesc>Open recent and home StarGate addresses.</StarGate_AddressBookDesc>
+  <StarGate_Galaxy>Galaxy</StarGate_Galaxy>
+  <StarGate_GalaxyDesc>Open the StarGate list of the home world and discovered planets.</StarGate_GalaxyDesc>
+  <StarGate_Database>StarGate database</StarGate_Database>
+  <StarGate_DatabaseDesc>Show saved StarGate planets, addresses, and maps.</StarGate_DatabaseDesc>
+  <StarGate_DebugArrival>Debug arrivals</StarGate_DebugArrival>
+  <StarGate_DebugArrivalDesc>Open debug options for raids, traders, and allies through the StarGate.</StarGate_DebugArrivalDesc>
+  <StarGate_Online>(online)</StarGate_Online>
+  <StarGate_WarmingUpLabel>(warming up)</StarGate_WarmingUpLabel>
+  <StarGate_Enter>Enter</StarGate_Enter>
+  <StarGate_PanelOnly>StarGate can only be operated from the control panel</StarGate_PanelOnly>
+  <StarGate_EnterIncomingFatal>Enter incoming gate (fatal)</StarGate_EnterIncomingFatal>
+  <StarGate_AddressInvalid>StarGate address is invalid.</StarGate_AddressInvalid>
+  <StarGate_AddressSeven>StarGate address must contain seven symbols.</StarGate_AddressSeven>
+  <StarGate_AddressFull>The address already has seven symbols.</StarGate_AddressFull>
+  <StarGate_PanelNotConnected>The panel is not connected to a gate.</StarGate_PanelNotConnected>
+  <StarGate_TravelUnavailable>StarGate: no available colonist can travel.</StarGate_TravelUnavailable>
+  <StarGate_ConnectionFailed>StarGate could not establish a connection.</StarGate_ConnectionFailed>
+  <StarGate_SameMap>The destination is the current map. Travel was cancelled.</StarGate_SameMap>
+  <StarGate_DestinationGateFailed>The destination gate could not be created.</StarGate_DestinationGateFailed>
+  <StarGate_NoArrivalSpace>StarGate could not find enough space for arrival.</StarGate_NoArrivalSpace>
+  <StarGate_TravelComplete>StarGate travel complete.</StarGate_TravelComplete>
+  <StarGate_TravelFailed>StarGate travel failed. Check the error log.</StarGate_TravelFailed>
+  <StarGate_IncomingFatal>{0} entered an incoming wormhole. Incoming StarGates are one-way.</StarGate_IncomingFatal>
+  <StarGate_HomeConnection>StarGate is connecting to the home world.</StarGate_HomeConnection>
+  <StarGate_HomeMapMissing>StarGate could not find the saved home map.</StarGate_HomeMapMissing>
+  <StarGate_TargetUnavailable>The selected target is unavailable. The connection will use the planet's main gate.</StarGate_TargetUnavailable>
+  <StarGate_CreatingPlanet>StarGate is creating a new planetary location.</StarGate_CreatingPlanet>
+  <StarGate_RestoringPlanet>StarGate is reopening the saved planet: {0}</StarGate_RestoringPlanet>
+  <StarGate_CreatedPlanet>StarGate created a new planetary location: {0}</StarGate_CreatedPlanet>
+  <StarGate_PlanetFailed>StarGate could not create an independent planetary map. Travel was cancelled.</StarGate_PlanetFailed>
+  <StarGate_HomeAddress>Home StarGate address: {0}</StarGate_HomeAddress>
+  <StarGate_ScanEmpty>StarGate scan found no additional hidden signals.</StarGate_ScanEmpty>
+  <StarGate_DebugMapRequired>StarGate debug incident requires an active map.</StarGate_DebugMapRequired>
+  <StarGate_DebugIncidentFailed>StarGate debug incident could not be started.</StarGate_DebugIncidentFailed>
+  <StarGate_GalaxyTitle>StarGate galaxy</StarGate_GalaxyTitle>
+  <StarGate_GalaxyUnavailable>StarGate galaxy database is not available.</StarGate_GalaxyUnavailable>
+  <StarGate_SiteDiscovered>StarGate site discovered</StarGate_SiteDiscovered>
+  <StarGate_DatabaseTitle>StarGate database</StarGate_DatabaseTitle>
+  <StarGate_DatabaseUnavailable>StarGate database is not available.</StarGate_DatabaseUnavailable>
+  <StarGate_RaidLetterTitle>StarGate breach</StarGate_RaidLetterTitle>
+  <StarGate_RaidLetterText>{0} is coming through the StarGate and attacking your colony. Incoming pawns: {1}.</StarGate_RaidLetterText>
+  <StarGate_VisitLetterTitle>StarGate visitors</StarGate_VisitLetterTitle>
+  <StarGate_VisitLetterText>{0} arrived through the StarGate as an armed contact. If neutral, they may trade with you.</StarGate_VisitLetterText>
+  <StarGate_AllyLetterTitle>StarGate allies</StarGate_AllyLetterTitle>
+  <StarGate_AllyLetterText>{0} arrived through the StarGate as an allied visitor.</StarGate_AllyLetterText>
+  <StarGate_PlanetDiscoveredTitle>StarGate planet discovered</StarGate_PlanetDiscoveredTitle>
+  <StarGate_PlanetDiscoveredText>Your colonists have stepped through the wormhole and reached {0}.
+
+Address: {1}
+Planet seed: {2}
+Planet type: {3}
+Atmosphere: {4}
+Civilization trace: {5}
+Threat level: {6}/10
+Resource richness: {7}/10
+Primary site: {8}</StarGate_PlanetDiscoveredText>
+  <StarGate_Value_unknown>unknown</StarGate_Value_unknown>
+  <StarGate_Value_temperate>temperate</StarGate_Value_temperate>
+  <StarGate_Value_forest>forest</StarGate_Value_forest>
+  <StarGate_Value_desert>desert</StarGate_Value_desert>
+  <StarGate_Value_ice>ice</StarGate_Value_ice>
+  <StarGate_Value_toxic>toxic</StarGate_Value_toxic>
+  <StarGate_Value_ancient_ruins>ancient ruins</StarGate_Value_ancient_ruins>
+  <StarGate_Value_Uninhabited>uninhabited</StarGate_Value_Uninhabited>
+  <StarGate_Value_Ruins>ruins</StarGate_Value_Ruins>
+  <StarGate_Value_Scattered_tribes>scattered tribes</StarGate_Value_Scattered_tribes>
+  <StarGate_Value_Hidden_settlements>hidden settlements</StarGate_Value_Hidden_settlements>
+  <StarGate_Value_Hostile_outposts>hostile outposts</StarGate_Value_Hostile_outposts>
+  <StarGate_Value_Ancient_network>ancient network</StarGate_Value_Ancient_network>
+  <StarGate_Value_Jaffa_controlled_world>Jaffa-controlled world</StarGate_Value_Jaffa_controlled_world>
+  <StarGate_Value_Breathable>breathable</StarGate_Value_Breathable>
+  <StarGate_Value_Thin>thin</StarGate_Value_Thin>
+  <StarGate_Value_Humid>humid</StarGate_Value_Humid>
+  <StarGate_Value_Dust_heavy>dust-heavy</StarGate_Value_Dust_heavy>
+  <StarGate_Value_Irradiated>irradiated</StarGate_Value_Irradiated>
+  <StarGate_Value_Toxic_traces>toxic traces</StarGate_Value_Toxic_traces>
+  <StarGate_Value_primary_gate>primary gate</StarGate_Value_primary_gate>
+  <StarGate_Value_settlement>settlement</StarGate_Value_settlement>
+  <StarGate_Value_ruin>ruin</StarGate_Value_ruin>
+  <StarGate_Value_outpost>outpost</StarGate_Value_outpost>
+  <StarGate_Value_jaffa_outpost>Jaffa outpost</StarGate_Value_jaffa_outpost>
+  <StarGate_UnknownDestination>Unknown destination</StarGate_UnknownDestination>
+  <StarGate_DiscoveredPlanets>Discovered planets</StarGate_DiscoveredPlanets>
+  <StarGate_NoDiscoveredPlanets>No discovered planets yet. Dial a new unknown address to discover the first one.</StarGate_NoDiscoveredPlanets>
+  <StarGate_HomePlanet>Home planet</StarGate_HomePlanet>
+  <StarGate_NoPlanetSelected>No planet selected.</StarGate_NoPlanetSelected>
+  <StarGate_PlanetSites>Planet sites</StarGate_PlanetSites>
+  <StarGate_NoSiteRecords>No site records.</StarGate_NoSiteRecords>
+  <StarGate_DialingAddress>StarGate dialing address</StarGate_DialingAddress>
+  <StarGate_AddressBookUnavailable>Address database is not available.</StarGate_AddressBookUnavailable>
+  <StarGate_NoPlanetsYet>No discovered planets yet.</StarGate_NoPlanetsYet>
 </LanguageData>

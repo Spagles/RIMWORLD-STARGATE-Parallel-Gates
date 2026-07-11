@@ -63,6 +63,14 @@
           <JaffaLeader>1</JaffaLeader>
         </options>
       </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <JaffaWarrior01>80</JaffaWarrior01>
+          <SerpentGuard>150</SerpentGuard>
+          <JaffaLeader>1</JaffaLeader>
+        </options>
+      </li>
     </pawnGroupMakers>
   </FactionDef>
   <FactionDef ParentName="GoauldFactionBase">
@@ -83,6 +91,14 @@
           <JaffaLeader>1</JaffaLeader>
         </options>
       </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <JaffaWarrior02>80</JaffaWarrior02>
+          <JackalGuard>150</JackalGuard>
+          <JaffaLeader>1</JaffaLeader>
+        </options>
+      </li>
     </pawnGroupMakers>
   </FactionDef>
   <FactionDef ParentName="GoauldFactionBase">
@@ -97,6 +113,14 @@
         <disallowedStrategies>
           <li>Siege</li>
         </disallowedStrategies>
+        <options>
+          <JaffaWarrior03>80</JaffaWarrior03>
+          <HorusGuard>150</HorusGuard>
+          <JaffaLeader>1</JaffaLeader>
+        </options>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
         <options>
           <JaffaWarrior03>80</JaffaWarrior03>
           <HorusGuard>150</HorusGuard>

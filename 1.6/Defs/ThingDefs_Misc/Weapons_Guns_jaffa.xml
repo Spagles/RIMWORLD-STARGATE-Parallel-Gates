@@ -53,6 +53,7 @@
       </li>
     </verbs>
     <weaponTags>
+      <li>JaffaWeapons</li>
       <li>JaffaGun</li>
     </weaponTags>
     <tools>
@@ -128,6 +129,7 @@
       </li>
     </verbs>
     <weaponTags>
+      <li>JaffaWeapons</li>
       <li>JaffaGun</li>
     </weaponTags>
     <tools>

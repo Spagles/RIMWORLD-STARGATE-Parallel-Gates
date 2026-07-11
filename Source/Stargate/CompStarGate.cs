@@ -122,12 +122,12 @@ namespace RimGateJaffaKree
         {
             if (IsOnline)
             {
-                return label + " (online)";
+                return label + " " + StarGateText.Get("StarGate_Online");
             }
 
             if (IsWarmingUp)
             {
-                return label + " (spousti se)";
+                return label + " " + StarGateText.Get("StarGate_WarmingUpLabel");
             }
 
             return label;
@@ -155,17 +155,17 @@ namespace RimGateJaffaKree
 
             if (IsWarmingUp)
             {
-                yield return new FloatMenuOption("StarGate se spousti", null);
+                yield return new FloatMenuOption(StarGateText.Get("StarGate_WarmingUp"), null);
                 yield break;
             }
 
             if (!IsOnline)
             {
-                yield return new FloatMenuOption("StarGate se ovlada pouze panelem", null);
+                yield return new FloatMenuOption(StarGateText.Get("StarGate_PanelOnly"), null);
                 yield break;
             }
 
-            string label = IsIncomingOnly ? "Vstoupit do prichozi brany (smrtelne)" : "Projit";
+            string label = IsIncomingOnly ? StarGateText.Get("StarGate_EnterIncomingFatal") : StarGateText.Get("StarGate_Enter");
             yield return new FloatMenuOption(label, delegate
             {
                 Job job = JobMaker.MakeJob(StarGateDefOf.EnterStarGate, parent, StarGateTravelUtility.EntryCellFor(parent, selPawn));
@@ -181,7 +181,7 @@ namespace RimGateJaffaKree
             }
 
             warmupTicksLeft = Props.warmupTicks;
-            Messages.Message("StarGate se spousti.", parent, MessageTypeDefOf.NeutralEvent, false);
+            Messages.Message(StarGateText.Get("StarGate_WarmingUp"), parent, MessageTypeDefOf.NeutralEvent, false);
         }
 
         public void SetDialedAddress(string address)
@@ -315,15 +315,15 @@ namespace RimGateJaffaKree
             if (destination != null)
             {
                 destination.BringOnline(destination.Props.stayOnlineTicks, true);
-                Messages.Message("StarGate spojeni je aktivni.", parent, MessageTypeDefOf.PositiveEvent, false);
+                Messages.Message(StarGateText.Get("StarGate_ConnectionActive"), parent, MessageTypeDefOf.PositiveEvent, false);
             }
             else if (!dialedAddress.NullOrEmpty())
             {
-                Messages.Message("StarGate spojeni je aktivni.", parent, MessageTypeDefOf.PositiveEvent, false);
+                Messages.Message(StarGateText.Get("StarGate_ConnectionActive"), parent, MessageTypeDefOf.PositiveEvent, false);
             }
             else
             {
-                Messages.Message("StarGate je online, ale neni dostupna druha brana.", parent, MessageTypeDefOf.NeutralEvent, false);
+                Messages.Message(StarGateText.Get("StarGate_DestinationGateFailed"), parent, MessageTypeDefOf.NeutralEvent, false);
             }
         }
 

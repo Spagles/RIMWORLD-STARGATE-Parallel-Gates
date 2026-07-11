@@ -28,7 +28,7 @@ From the current Parallel Gates implementation:
 - Galaxy browser
 - Generated offworld destination maps
 - A full independent RimWorld globe for every seven-symbol address
-- Independent terrain, rivers, roads, factions, settlements, sites, and world-map exploration per address
+- Independent terrain, roads, factions, settlements, sites, and world-map exploration per address
 - Stable saved addresses and generated destinations
 - Persistent 150x150 planet maps that preserve terrain, buildings, items, and inhabitants
 - Deterministic planet biomes and civilization profiles
@@ -145,8 +145,9 @@ After copying, the result should look like:
 Enable these mods in this order:
 
 1. `Harmony`
-2. `Humanoid Alien Races`
-3. `RIMWORLD-STARGATE: Parallel Gates`
+2. `Odyssey`
+3. `Humanoid Alien Races`
+4. `RIMWORLD-STARGATE: Parallel Gates`
 
 Then restart RimWorld when the game asks for it.
 
@@ -161,6 +162,7 @@ Then restart RimWorld when the game asks for it.
 - Discord: [https://discord.gg/SjSH9Tkpf](https://discord.gg/SjSH9Tkpf)
 - Website: [https://stargatemod.page.gd/](https://stargatemod.page.gd/)
 - YouTube: [https://www.youtube.com/@panzmoravylab](https://www.youtube.com/@panzmoravylab)
+- Workshop description: [STEAM_WORKSHOP_DESCRIPTION.txt](STEAM_WORKSHOP_DESCRIPTION.txt)
 
 ## Credits
 

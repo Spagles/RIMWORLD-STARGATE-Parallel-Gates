@@ -250,16 +250,10 @@ namespace RimGateJaffaKree
             }
 
             planetSystem.MarkPlanetDiscovered(planet);
-            string title = "StarGate planet discovered";
-            string text = "Your colonists have stepped through the wormhole and reached " + planet.displayName + ".\n\n"
-                + "Address: " + planet.address + "\n"
-                + "Planet seed: " + planet.generationSeed + "\n"
-                + "Planet type: " + planet.planetType + "\n"
-                + "Atmosphere: " + planet.atmosphere + "\n"
-                + "Civilization trace: " + planet.civilizationLevel + "\n"
-                + "Threat level: " + planet.threatLevel + "/10\n"
-                + "Resource richness: " + planet.resourceRichness + "/10\n"
-                + "Primary site: " + site.displayName;
+            string title = StarGateText.Get("StarGate_PlanetDiscoveredTitle");
+            string text = StarGateText.Format("StarGate_PlanetDiscoveredText", planet.displayName, planet.address, planet.generationSeed,
+                StarGateText.Value(planet.planetType), StarGateText.Value(planet.atmosphere), StarGateText.Value(planet.civilizationLevel),
+                planet.threatLevel, planet.resourceRichness, site.displayName);
 
             Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, gate);
         }

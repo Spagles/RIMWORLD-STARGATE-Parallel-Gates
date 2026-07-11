@@ -29,12 +29,12 @@ namespace RimGateJaffaKree
             planetSystem?.EnsureInitialized();
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f), "StarGate galaxy");
+            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f), StarGateText.Get("StarGate_GalaxyTitle"));
             Text.Font = GameFont.Small;
 
             if (planetSystem == null)
             {
-                Widgets.Label(new Rect(inRect.x, inRect.y + 46f, inRect.width, 28f), "StarGate galaxy database is not available.");
+                Widgets.Label(new Rect(inRect.x, inRect.y + 46f, inRect.width, 28f), StarGateText.Get("StarGate_GalaxyUnavailable"));
                 return;
             }
 
@@ -47,14 +47,14 @@ namespace RimGateJaffaKree
 
             Rect unknownRect = new Rect(inRect.x, y, inRect.width, 44f);
             Widgets.DrawMenuSection(unknownRect);
-            Widgets.Label(new Rect(unknownRect.x + 12f, unknownRect.y + 11f, unknownRect.width - 180f, 24f), "Unknown destination");
+            Widgets.Label(new Rect(unknownRect.x + 12f, unknownRect.y + 11f, unknownRect.width - 180f, 24f), StarGateText.Get("StarGate_UnknownDestination"));
             if (Widgets.ButtonText(new Rect(unknownRect.xMax - 164f, unknownRect.y + 8f, 156f, 28f), "New address"))
             {
                 OpenDialGuide(planetSystem.GenerateUnknownAddress());
             }
 
             y += 52f;
-            Widgets.Label(new Rect(inRect.x, y, inRect.width, 24f), "Discovered planets");
+            Widgets.Label(new Rect(inRect.x, y, inRect.width, 24f), StarGateText.Get("StarGate_DiscoveredPlanets"));
             y += 30f;
 
             List<StarGatePlanetRecord> planets = planetSystem.KnownPlanets
@@ -64,7 +64,7 @@ namespace RimGateJaffaKree
 
             if (planets.Count == 0)
             {
-                Widgets.Label(new Rect(inRect.x, y, inRect.width, 30f), "No discovered planets yet. Dial a new unknown address to discover the first one.");
+                Widgets.Label(new Rect(inRect.x, y, inRect.width, 30f), StarGateText.Get("StarGate_NoDiscoveredPlanets"));
                 return;
             }
 
@@ -115,12 +115,12 @@ namespace RimGateJaffaKree
                 StarGateSiteRecord revealed = planetSystem.RevealNextSiteOnMap(map);
                 if (revealed == null)
                 {
-                    Messages.Message("StarGate scan nenasel zadne dalsi skryte signaly.", MessageTypeDefOf.NeutralEvent, false);
+                    Messages.Message(StarGateText.Get("StarGate_ScanEmpty"), MessageTypeDefOf.NeutralEvent, false);
                     return;
                 }
 
                 selectedPlanetId = planet.id;
-                string title = "StarGate site discovered";
+                string title = StarGateText.Get("StarGate_SiteDiscovered");
                 string text = "The StarGate scan revealed a new location on " + LabelOrFallback(planet.displayName, planet.id) + ".\n\n"
                     + "Site: " + LabelOrFallback(revealed.displayName, revealed.id) + "\n"
                     + "Type: " + LabelOrFallback(revealed.siteType, "unknown") + "\n"
@@ -132,7 +132,7 @@ namespace RimGateJaffaKree
         private void DrawHomeRow(Rect rect, string homeAddress)
         {
             Widgets.DrawMenuSection(rect);
-            Widgets.Label(new Rect(rect.x + 12f, rect.y + 11f, rect.width - 180f, 24f), "Home planet   " + homeAddress);
+            Widgets.Label(new Rect(rect.x + 12f, rect.y + 11f, rect.width - 180f, 24f), StarGateText.Get("StarGate_HomePlanet") + "   " + homeAddress);
             if (Widgets.ButtonText(new Rect(rect.xMax - 164f, rect.y + 8f, 156f, 28f), "Guide home"))
             {
                 OpenDialGuide(homeAddress);
@@ -170,7 +170,7 @@ namespace RimGateJaffaKree
         {
             if (planet == null)
             {
-                Widgets.Label(new Rect(rect.x + 12f, rect.y + 12f, rect.width - 24f, 24f), "No planet selected.");
+                Widgets.Label(new Rect(rect.x + 12f, rect.y + 12f, rect.width - 24f, 24f), StarGateText.Get("StarGate_NoPlanetSelected"));
                 return;
             }
 
@@ -192,12 +192,12 @@ namespace RimGateJaffaKree
             DrawDetailLine(rect, ref y, "Scans", planet.scanCount.ToString());
 
             y += 8f;
-            Widgets.Label(new Rect(rect.x + 12f, y, rect.width - 24f, 24f), "Planet sites");
+            Widgets.Label(new Rect(rect.x + 12f, y, rect.width - 24f, 24f), StarGateText.Get("StarGate_PlanetSites"));
             y += 28f;
 
             if (planet.sites == null || planet.sites.Count == 0)
             {
-                Widgets.Label(new Rect(rect.x + 12f, y, rect.width - 24f, 24f), "No site records.");
+                Widgets.Label(new Rect(rect.x + 12f, y, rect.width - 24f, 24f), StarGateText.Get("StarGate_NoSiteRecords"));
                 return;
             }
 
@@ -238,13 +238,13 @@ namespace RimGateJaffaKree
         {
             if (!StarGatePlanetSystem.IsValidAddress(address))
             {
-                Messages.Message("StarGate adresa neni platna.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_AddressInvalid"), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
             if (panel?.LinkedGate() == null)
             {
-                Messages.Message("Panel neni pripojen k brane.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_PanelNotConnected"), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
@@ -256,7 +256,7 @@ namespace RimGateJaffaKree
 
         private static string LabelOrFallback(string value, string fallback)
         {
-            return value.NullOrEmpty() ? fallback : value;
+            return StarGateText.Value(value, fallback);
         }
     }
 }

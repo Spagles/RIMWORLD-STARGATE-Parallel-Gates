@@ -15,7 +15,7 @@ namespace RimGateJaffaKree
         {
             if (origin == null || selectedPawn == null || !selectedPawn.Spawned)
             {
-                Messages.Message("StarGate: nelze projit, kolonista neni dostupny.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_TravelUnavailable"), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
@@ -27,13 +27,13 @@ namespace RimGateJaffaKree
                     Map destinationMap = DestinationMapFor(origin.parent.Map, origin.DialedAddress, origin.DialedSiteId);
                     if (destinationMap == null)
                     {
-                        Messages.Message("StarGate nedokazala navazat spojeni.", origin.parent, MessageTypeDefOf.RejectInput, false);
+                        Messages.Message(StarGateText.Get("StarGate_ConnectionFailed"), origin.parent, MessageTypeDefOf.RejectInput, false);
                         return;
                     }
 
                     if (destinationMap == origin.parent.Map)
                     {
-                        Messages.Message("StarGate cilova mapa je stejna jako aktualni. Spojeni bylo zruseno, aby nevznikla falesna planeta.", origin.parent, MessageTypeDefOf.RejectInput, false);
+                        Messages.Message(StarGateText.Get("StarGate_SameMap"), origin.parent, MessageTypeDefOf.RejectInput, false);
                         Log.Warning("StarGate rejected travel because destination map matched source map: " + destinationMap.uniqueID);
                         return;
                     }
@@ -41,7 +41,7 @@ namespace RimGateJaffaKree
                     CompStarGate destinationGate = EnsureGateOnMap(destinationMap, DestinationGateAddress(destinationMap, origin.DialedAddress));
                     if (destinationGate == null)
                     {
-                        Messages.Message("Na cilove mape se nepodarilo vytvorit StarGate.", origin.parent, MessageTypeDefOf.RejectInput, false);
+                        Messages.Message(StarGateText.Get("StarGate_DestinationGateFailed"), origin.parent, MessageTypeDefOf.RejectInput, false);
                         return;
                     }
 
@@ -51,18 +51,18 @@ namespace RimGateJaffaKree
                     int movedCount = MovePawns(pawns, destinationGate);
                     if (movedCount == 0)
                     {
-                        Messages.Message("StarGate nenasla volne misto pro prichod.", destinationGate.parent, MessageTypeDefOf.RejectInput, false);
+                        Messages.Message(StarGateText.Get("StarGate_NoArrivalSpace"), destinationGate.parent, MessageTypeDefOf.RejectInput, false);
                     }
                     else
                     {
                         Current.Game.GetComponent<StarGatePlanetSystem>()?.RegisterVisit(destinationGate.parent.Map);
-                        Messages.Message("StarGate pruchod dokoncen: mapa " + origin.parent.Map.uniqueID + " -> " + destinationMap.uniqueID + ".", destinationGate.parent, MessageTypeDefOf.PositiveEvent, false);
+                        Messages.Message(StarGateText.Get("StarGate_TravelComplete"), destinationGate.parent, MessageTypeDefOf.PositiveEvent, false);
                     }
                 }
                 catch (System.Exception exception)
                 {
                     Log.Error("StarGate travel failed: " + exception);
-                    Messages.Message("StarGate pruchod selhal. Podivej se do error logu.", origin.parent, MessageTypeDefOf.RejectInput, false);
+                    Messages.Message(StarGateText.Get("StarGate_TravelFailed"), origin.parent, MessageTypeDefOf.RejectInput, false);
                 }
             }, "StarGate_TravelingWormhole", false, null);
         }
@@ -76,7 +76,7 @@ namespace RimGateJaffaKree
 
             if (gate.IsIncomingOnly)
             {
-                Messages.Message(pawn.LabelShort + " vstoupil do prichoziho cerviho otvoru. Prichozi StarGate je jednosmerna.", pawn, MessageTypeDefOf.NegativeEvent, false);
+                Messages.Message(StarGateText.Format("StarGate_IncomingFatal", pawn.LabelShort), pawn, MessageTypeDefOf.NegativeEvent, false);
                 pawn.Kill(null);
                 return;
             }
@@ -236,11 +236,11 @@ namespace RimGateJaffaKree
                 Map homeMap = planetSystem?.HomeMap() ?? Current.Game.Maps.FirstOrDefault(map => map != null && map.IsPlayerHome);
                 if (homeMap != null)
                 {
-                    Messages.Message("StarGate navazuje spojeni s domovskou planetou.", MessageTypeDefOf.PositiveEvent, false);
+                    Messages.Message(StarGateText.Get("StarGate_HomeConnection"), MessageTypeDefOf.PositiveEvent, false);
                     return homeMap;
                 }
 
-                Messages.Message("StarGate nenasla ulozenou domovskou mapu.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_HomeMapMissing"), MessageTypeDefOf.RejectInput, false);
                 return null;
             }
 
@@ -262,7 +262,7 @@ namespace RimGateJaffaKree
 
             if (dialedAddress.NullOrEmpty())
             {
-                Messages.Message("StarGate nema vytočenou platnou adresu.", MessageTypeDefOf.RejectInput, false);
+                Messages.Message(StarGateText.Get("StarGate_AddressInvalid"), MessageTypeDefOf.RejectInput, false);
                 return null;
             }
 
@@ -289,7 +289,7 @@ namespace RimGateJaffaKree
                 site = planetSystem?.SiteForId(record, siteId);
                 if (site == null || (!site.known && !site.visited))
                 {
-                    Messages.Message("StarGate cilova site neni dostupna. Spojeni se presmeruje na hlavni branu planety.", MessageTypeDefOf.NeutralEvent, false);
+                    Messages.Message(StarGateText.Get("StarGate_TargetUnavailable"), MessageTypeDefOf.NeutralEvent, false);
                     site = null;
                 }
             }
@@ -317,12 +317,12 @@ namespace RimGateJaffaKree
                     else if (existing == sourceMap)
                     {
                         ClearStaleSiteMap(site);
-                        Messages.Message("StarGate cil ukazoval na aktualni mapu. Vytvarim novou planetarni mapu.", MessageTypeDefOf.NeutralEvent, false);
+                        Messages.Message(StarGateText.Get("StarGate_CreatingPlanet"), MessageTypeDefOf.NeutralEvent, false);
                     }
                     else
                     {
                     StarGatePlanetWorldUtility.SelectLayerFor(existing);
-                    Messages.Message("StarGate obnovuje spojeni se znamou planetou: " + record.displayName, MessageTypeDefOf.PositiveEvent, false);
+                    Messages.Message(StarGateText.Format("StarGate_RestoringPlanet", record.displayName), MessageTypeDefOf.PositiveEvent, false);
                     return existing;
                     }
                 }
@@ -334,13 +334,13 @@ namespace RimGateJaffaKree
                 if (existingWorldObjectMap == sourceMap)
                 {
                     ClearStaleSiteMap(site);
-                    Messages.Message("StarGate ulozeny site smeroval na aktualni mapu. Vytvarim novou planetarni mapu.", MessageTypeDefOf.NeutralEvent, false);
+                    Messages.Message(StarGateText.Get("StarGate_CreatingPlanet"), MessageTypeDefOf.NeutralEvent, false);
                 }
                 else
                 {
                 StarGatePlanetWorldUtility.SelectLayerFor(existingWorldObjectMap);
                 planetSystem?.RegisterGeneratedMap(record, site, existingWorldObjectMap, existingWorldObjectMap.Parent);
-                Messages.Message("StarGate znovu otevira ulozenou planetu: " + record.displayName, MessageTypeDefOf.PositiveEvent, false);
+                    Messages.Message(StarGateText.Format("StarGate_RestoringPlanet", record.displayName), MessageTypeDefOf.PositiveEvent, false);
                 return existingWorldObjectMap;
                 }
             }
@@ -359,7 +359,7 @@ namespace RimGateJaffaKree
                     {
                     StarGatePlanetWorldUtility.SelectLayerFor(map);
                     planetSystem?.RegisterGeneratedMap(record, site, map, map.Parent);
-                    Messages.Message("StarGate vytvorila novou planetarni lokaci: " + record.displayName + " / " + site.displayName + " (map " + map.uniqueID + ")", MessageTypeDefOf.PositiveEvent, false);
+                    Messages.Message(StarGateText.Format("StarGate_CreatedPlanet", record.displayName), MessageTypeDefOf.PositiveEvent, false);
                     return map;
                     }
                 }
@@ -369,7 +369,7 @@ namespace RimGateJaffaKree
                 Log.Warning("StarGate pocket-map generation failed. " + exception);
             }
 
-            Messages.Message("StarGate nedokazala vytvorit samostatnou planetarni mapu. Spojeni bylo odmitnuto.", MessageTypeDefOf.RejectInput, false);
+            Messages.Message(StarGateText.Get("StarGate_PlanetFailed"), MessageTypeDefOf.RejectInput, false);
             return null;
         }
 
