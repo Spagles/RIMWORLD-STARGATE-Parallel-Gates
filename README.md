@@ -1,5 +1,8 @@
 # RIMWORLD-STARGATE: Parallel Gates
 
+![Uploading preview.png…]()
+
+
 `RIMWORLD-STARGATE: Parallel Gates` is a RimWorld 1.6 Stargate prototype mod based on the RimGate Jaffa/Kree mod base.
 
 It keeps the original Jaffa content alive on RimWorld 1.6 and expands it with a playable Stargate system focused on dialing, travel, generated destinations, and incoming gate events.
