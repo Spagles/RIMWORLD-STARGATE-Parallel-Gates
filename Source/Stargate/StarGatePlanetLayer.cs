@@ -23,7 +23,7 @@ namespace RimGateJaffaKree
         {
         }
 
-        public new void ExposeData()
+        public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref stargateAddress, "stargateAddress");
