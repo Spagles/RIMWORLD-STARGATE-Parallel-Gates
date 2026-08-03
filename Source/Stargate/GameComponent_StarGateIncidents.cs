@@ -34,6 +34,16 @@ namespace RimGateJaffaKree
         public override void GameComponentTick()
         {
             base.GameComponentTick();
+            if (nextIncidentTick < 0)
+            {
+                ScheduleNextIncident();
+            }
+
+            if (Find.TickManager.TicksGame >= nextIncidentTick)
+            {
+                TryTriggerIncomingEvent();
+                ScheduleNextIncident();
+            }
         }
 
         public bool DebugTriggerOnMap(Map map)
